@@ -1,0 +1,151 @@
+/* =============================================
+   Inicio.css
+   Pantalla principal de SimiMap.
+   Animaciones de entrada suaves con keyframes.
+   ============================================= */
+
+/* Animación de entrada: aparece desde abajo */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(2rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Respeta la preferencia del usuario de reducir movimiento */
+@media (prefers-reduced-motion: reduce) {
+  .hero__etiqueta,
+  .hero__titulo,
+  .hero__subtitulo,
+  .hero__boton {
+    animation: none !important;
+  }
+}
+
+/* Contenedor principal de la página */
+.inicio {
+  min-height: 100vh;
+  background-color: var(--background);
+}
+
+/* Sección hero: ocupa toda la pantalla menos el navbar */
+.hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 4rem);
+  text-align: center;
+  padding: 2rem var(--margin-mobile);
+
+  /* Imagen de fondo */
+  background-image: url('/hero-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+/* Capa oscura encima de la imagen para que el texto se lea bien */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;                         /* cubre todo el hero */
+  background: rgba(3, 33, 0, 0.45); /* verde oscuro semitransparente */
+  z-index: 0;
+}
+
+/* Todo el contenido va encima de la capa oscura */
+.hero__contenido {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  max-width: 50rem;
+}
+
+/* Etiqueta pequeña arriba del título */
+.hero__etiqueta {
+  font-family: var(--font-body);
+  font-size: 0.75rem;               /* ~12px */
+  font-weight: 500;
+  color: var(--primary-fixed);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+
+  animation: fadeInUp 0.6s ease both;
+  animation-delay: 0.1s;
+}
+
+/* Título principal */
+.hero__titulo {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3rem); /* Responsive automático */
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.1;
+
+  animation: fadeInUp 0.6s ease both;
+  animation-delay: 0.25s;
+}
+
+/* Subtítulo */
+.hero__subtitulo {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 2vw, 1.125rem);
+  color: var(--surface-dim);
+  line-height: 1.6;
+  max-width: 32rem;
+
+  animation: fadeInUp 0.6s ease both;
+  animation-delay: 0.4s;
+}
+
+/* Botón principal */
+.hero__boton {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--on-primary);
+  background-color: var(--primary);
+  padding: 1rem 2.25rem;
+  border-radius: var(--radius-full);
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+
+  animation: fadeInUp 0.6s ease both;
+  animation-delay: 0.55s;
+}
+
+.hero__boton:hover {
+  background-color: var(--primary-container);
+  transform: translateY(-2px);      /* Sube levemente al pasar el mouse */
+}
+
+.hero__boton:focus-visible {
+  outline: 3px solid var(--primary-fixed);
+  outline-offset: 4px;
+}
+
+/* ── Responsive: tablet ── */
+@media (min-width: 48rem) {         /* 768px */
+  .hero {
+    padding: 2rem 4rem;
+  }
+}
+
+/* ── Responsive: desktop ── */
+@media (min-width: 80rem) {         /* 1280px */
+  .hero {
+    padding: 2rem var(--margin-desktop);
+  }
+}

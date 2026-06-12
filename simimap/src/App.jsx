@@ -1,16 +1,24 @@
-import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import Inicio from './paginas/Inicio';
+import Mapa from './paginas/Mapa';
+import DetalleSitio from './paginas/DetalleSitio';
 
 /**
- * App.jsx es el componente principal que envuelve toda nuestra aplicación.
- * Por ahora solo saludaremos para confirmar que la limpieza funcionó.
+ * App.jsx ahora actúa como el "director de tráfico".
+ * Define qué componente se dibuja según la URL.
  */
 function App() {
   return (
-    <div>
-      <h1>Bienvenido a SimiMap</h1>
-      <p>El proyecto está listo para la Fase 7.</p>
+    <div className="App">
+      <Routes>
+       
+        <Route path="/" element={<Inicio />} />
+        <Route path="/mapa" element={<Mapa />} />
+        {/* Ruta dinámica para los sitios turísticos.*/}
+        <Route path="/sitio/:slug" element={<DetalleSitio />} />
+      </Routes>
     </div>
-  )
+  );
 }
 
 export default App;

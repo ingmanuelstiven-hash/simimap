@@ -1,0 +1,86 @@
+/* =============================================
+   Navbar.css
+   Barra de navegación principal de SimiMap.
+   Usa variables del archivo variables.css
+   ============================================= */
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: var(--surface-container-lowest);
+  border-bottom: 1px solid var(--outline-variant);
+  position: sticky;       /* Se queda fija al hacer scroll */
+  top: 0;
+  z-index: 100;
+}
+
+
+.navbar__logo {
+  display: flex;
+  align-items: center;
+  min-width: 150px; /* Le damos un ancho mínimo al contenedor */
+  height: 50px;
+  text-decoration: none;
+}
+
+.navbar__logo-img {
+  display: block;   /* Evita espacios fantasmas abajo */
+  height: 100%;     /* Que ocupe todo el alto del contenedor */
+  width: auto;      /* Que se ajuste proporcionalmente */
+}
+
+
+
+
+
+/* Contenedor de links */
+.navbar__links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+/* Cada link del menú */
+.navbar__link {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--on-surface);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0.25rem 0;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.navbar__link:hover,
+.navbar__link:focus-visible {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+  outline: none;
+}
+
+/* Link activo (página actual) */
+.navbar__link--activo {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+
+/* ── Responsive: móvil ── */
+@media (max-width: 48rem) {  /* 768px */
+  .navbar {
+    padding: 0.875rem 1rem;
+  }
+
+  .navbar__logo-texto {
+    font-size: 1.125rem;
+  }
+
+  .navbar__links {
+    gap: 1rem;
+  }
+
+  .navbar__link {
+    font-size: 0.9rem;
+  }
+}
