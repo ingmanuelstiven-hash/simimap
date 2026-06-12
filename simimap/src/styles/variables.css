@@ -1,0 +1,105 @@
+:root {
+  /* ── Superficies ── */
+  --surface:                  #fcf9f5;
+  --surface-dim:              #dcdad6;
+  --surface-bright:           #fcf9f5;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low:    #f6f3f0;
+  --surface-container:        #f0edea;
+  --surface-container-high:   #eae8e4;
+  --surface-container-highest:#e5e2df;
+  --surface-variant:          #e5e2df;
+  --surface-cream:            #fdfbf2;
+
+  /* ── Texto sobre superficies ── */
+  --on-surface:         #1b1c1a;
+  --on-surface-variant: #41493c;
+  --inverse-surface:    #30302e;
+  --inverse-on-surface: #f3f0ed;
+  --on-background:      #1b1c1a;
+  --background:         #fcf9f5;
+
+  /* ── Bordes ── */
+  --outline:         #717a6a;
+  --outline-variant: #c0c9b8;
+
+  /* ── Primario (verde) ── */
+  --primary:              #276b15;
+  --on-primary:           #ffffff;
+  --primary-container:    #41852d;
+  --on-primary-container: #ffffff;
+  --inverse-primary:      #8fd975;
+  --primary-fixed:        #aaf68f;
+  --primary-fixed-dim:    #8fd975;
+  --on-primary-fixed:     #032100;
+  --on-primary-fixed-variant: #105300;
+  --surface-tint:         #286c16;
+
+  /* ── Secundario (naranja/ámbar) ── */
+  --secondary:              #875200;
+  --on-secondary:           #ffffff;
+  --secondary-container:    #fda21b;
+  --on-secondary-container: #673e00;
+  --secondary-fixed:        #ffddba;
+  --secondary-fixed-dim:    #ffb865;
+  --on-secondary-fixed:     #2b1700;
+  --on-secondary-fixed-variant: #663d00;
+
+  /* ── Terciario (teal) ── */
+  --tertiary:              #00686c;
+  --on-tertiary:           #ffffff;
+  --tertiary-container:    #008389;
+  --on-tertiary-container: #feffff;
+  --tertiary-fixed:        #7af5fc;
+  --tertiary-fixed-dim:    #5ad8df;
+  --on-tertiary-fixed:     #002021;
+  --on-tertiary-fixed-variant: #004f53;
+
+  /* ── Error ── */
+  --error:              #ba1a1a;
+  --on-error:           #ffffff;
+  --error-container:    #ffdad6;
+  --on-error-container: #93000a;
+
+  /* ── Acentos extra ── */
+  --meadow-bg:   #c3f0d5;
+  --accent-coral:#e47468;
+  --deep-navy:   #051e67;
+  --earth-brown: #7a473b;
+
+  /* ── Tipografía ── */
+  --font-display: 'Anybody', sans-serif;
+  --font-body:    'Be Vietnam Pro', sans-serif;
+
+  /* ── Escala tipográfica ── */
+  --text-display-xl:   48px;
+  --text-headline-lg:  32px;
+  --text-title-md:     24px;
+  --text-body-lg:      18px;
+  --text-body-md:      16px;
+  --text-label-bold:   14px;
+  --text-caption:      12px;
+
+  /* ── Bordes redondeados ── */
+  --radius-sm:   0.25rem;
+  --radius:      0.5rem;
+  --radius-md:   0.75rem;
+  --radius-lg:   1rem;
+  --radius-xl:   1.5rem;
+  --radius-full: 9999px;
+
+  /* ── Espaciado ── */
+  --unit:             4px;
+  --gutter:           24px;
+  --margin-mobile:    16px;
+  --margin-desktop:   64px;
+  --container-max:    1280px;
+}
+
+/* ── Responsive: mobile ── */
+@media (max-width: 768px) {
+  :root {
+    --text-display-xl:  36px;
+    --text-headline-lg: 28px;
+  }
+}

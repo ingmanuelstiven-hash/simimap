@@ -1,0 +1,11 @@
+/* Reset básico para que no queden márgenes raros */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif; /* Cambiaremos esto después por Anybody y Be Vietnam Pro */
+  background-color: #fcf9f5; /* El color surface de tu paleta */
+}
