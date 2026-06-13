@@ -1,0 +1,41 @@
+.mapa-pagina {
+  height: 100vh;
+  background-color: #c3f0d5;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Elimina el scroll */
+}
+
+.mapa-contenedor {
+  flex: 1;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+.mapa-svg-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.mapa-svg-wrapper svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Tablet */
+@media (max-width: 48rem) {
+  .mapa-svg-wrapper svg {
+    height: 60vw;  /* En tablet se ajusta proporcional al ancho */
+  }
+}
+
+/* Móvil */
+@media (max-width: 30rem) {
+  .mapa-svg-wrapper svg {
+    height: auto;  /* En móvil respeta la proporción natural del SVG */
+    min-height: 50vh;
+  }
+}
