@@ -35,6 +35,7 @@
 /* Sección hero: ocupa toda la pantalla menos el navbar */
 .hero {
   position: relative;
+  z-index: 1; /* Crea un contexto de apilamiento para que z-index: -1 no se vaya detrás del fondo de la página */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -42,12 +43,19 @@
   min-height: calc(100vh - 4rem);
   text-align: center;
   padding: 2rem var(--margin-mobile);
+  overflow: hidden; /* Asegura que la imagen no sobresalga del contenedor */
+}
 
-  /* Imagen de fondo */
-  background-image: url('/hero-bg.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+/* Imagen de fondo cargada en el JSX */
+.hero__background-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: -1;
+  pointer-events: none; /* Evita interferencia con clics u otras interacciones */
 }
 
 /* Capa oscura encima de la imagen para que el texto se lea bien */

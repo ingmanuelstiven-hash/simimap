@@ -17,7 +17,7 @@ export default function Navbar() {
 
   <Link to="/" className="navbar__logo" aria-label="SimiMap - Inicio">
   <img 
-    src="/logo.svg" 
+    src="./src/assets/logo_simimap.svg" 
     alt="SimiMap" 
     className="navbar__logo-img" 
   />

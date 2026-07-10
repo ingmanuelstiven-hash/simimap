@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import Navbar from '../componentes/Navbar';
 import '../styles/Inicio.css';
+import simijBg from '../assets/simij.jpg';
 
 /**
  * Inicio.jsx
@@ -28,6 +29,13 @@ export default function Inicio() {
           className="hero"
           aria-label="Bienvenida a SimiMap"
         >
+          {/* Imagen de fondo cargada desde el JSX */}
+          <img 
+            src={simijBg} 
+            alt="Fondo panorámico de Simijaca" 
+            className="hero__background-img" 
+          />
+
           <div className="hero__contenido">
 
        
