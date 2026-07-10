@@ -1,10 +1,48 @@
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 html, body, #root {
   height: 100%;
   overflow: hidden;
+}
+
+/* ── Animaciones Personalizadas ── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeInUp {
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.delay-100 {
+  animation-delay: 100ms;
+}
+
+.delay-250 {
+  animation-delay: 250ms;
+}
+
+.delay-400 {
+  animation-delay: 400ms;
+}
+
+.delay-550 {
+  animation-delay: 550ms;
+}
+
+/* Reducir movimiento si el usuario lo tiene configurado en su S.O. */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fadeInUp {
+    animation: none !important;
+    transition: none !important;
+  }
 }

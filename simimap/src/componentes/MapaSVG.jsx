@@ -10,21 +10,18 @@ export default function MapaSVG({ onSelectSite }) {
 
     const grupos = container.querySelectorAll('g[id]');
 
-    // Solo imprimimos los IDs en consola por ahora
-    console.log('IDs encontrados en el SVG:');
+    // Agregamos cursores e interacción de clics
     grupos.forEach((g) => {
-      console.log(' -', g.id);
       g.style.cursor = 'pointer';
       g.addEventListener('click', () => onSelectSite(g.id));
     });
-  }, []);
+  }, [onSelectSite]);
 
- return (
-  <div
-    ref={containerRef}
-    className="mapa-svg-wrapper"
-    style={{ width: '100%' }}
-    dangerouslySetInnerHTML={{ __html: svgRaw }}
-  />
-);
-}
+  return (
+    <div
+      ref={containerRef}
+      className="w-full h-full [&_svg]:w-full [&_svg]:block [&_svg]:h-[50vh] sm:[&_svg]:h-[60vw] md:[&_svg]:h-full"
+      dangerouslySetInnerHTML={{ __html: svgRaw }}
+    />
+  );
+}

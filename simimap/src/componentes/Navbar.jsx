@@ -1,33 +1,29 @@
 import { Link, useLocation } from 'react-router-dom';
-import './Navbar.css';
+import logoSimimap from '../assets/logo_simimap.svg';
 
-/**
- * Navbar.jsx
- * Barra de navegación fija en la parte superior.
- * - Muestra el logo SVG de SimiMap
- * - Marca el link activo según la URL actual
- * - aria-current para accesibilidad (WCAG 2.1)
- */
+
 export default function Navbar() {
-  // useLocation nos dice en qué ruta estamos ahora mismo
+ 
   const location = useLocation();
 
   return (
-    <nav className="navbar" role="navigation" aria-label="Navegación principal">
+    <nav className="flex justify-between items-center py-3.5 px-4 md:py-4 md:px-8 bg-surface-container-lowest border-b border-outline-variant sticky top-0 z-[100]" role="navigation" aria-label="Navegación principal">
 
-  <Link to="/" className="navbar__logo" aria-label="SimiMap - Inicio">
-  <img 
-    src="./src/assets/logo_simimap.svg" 
-    alt="SimiMap" 
-    className="navbar__logo-img" 
-  />
-</Link>
+      <Link to="/" className="flex items-center min-w-[150px] h-[50px] no-underline" aria-label="SimiMap - Inicio">
+        <img 
+          src={logoSimimap} 
+          alt="SimiMap" 
+          className="block h-full w-auto" 
+        />
+      </Link>
 
       {/* Links de navegación */}
-      <div className="navbar__links">
+      <div className="flex gap-4 md:gap-6">
         <Link
           to="/"
-          className={`navbar__link ${location.pathname === '/' ? 'navbar__link--activo' : ''}`}
+          className={`font-body text-[0.9rem] md:text-base text-on-surface no-underline font-medium py-1 border-b-2 transition-all duration-200 ease-in-out hover:text-primary hover:border-primary focus-visible:text-primary focus-visible:border-primary focus-visible:outline-none ${
+            location.pathname === '/' ? 'text-primary border-primary' : 'border-transparent'
+          }`}
           aria-current={location.pathname === '/' ? 'page' : undefined}
         >
           Inicio
@@ -35,7 +31,9 @@ export default function Navbar() {
 
         <Link
           to="/mapa"
-          className={`navbar__link ${location.pathname === '/mapa' ? 'navbar__link--activo' : ''}`}
+          className={`font-body text-[0.9rem] md:text-base text-on-surface no-underline font-medium py-1 border-b-2 transition-all duration-200 ease-in-out hover:text-primary hover:border-primary focus-visible:text-primary focus-visible:border-primary focus-visible:outline-none ${
+            location.pathname === '/mapa' ? 'text-primary border-primary' : 'border-transparent'
+          }`}
           aria-current={location.pathname === '/mapa' ? 'page' : undefined}
         >
           Mapa
