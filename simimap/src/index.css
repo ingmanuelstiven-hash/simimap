@@ -2,47 +2,77 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body, #root {
-  height: 100%;
-  overflow: hidden;
-}
-
-/* ── Animaciones Personalizadas ── */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(1.5rem);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+@layer base {
+  html,
+  body,
+  #root {
+    @apply h-full overflow-hidden bg-background;
   }
 }
 
-.animate-fadeInUp {
-  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+@layer components {
+  /* Tooltip del Mapa Nativo - Sutil y moderno */
+  #mapa-tooltip {
+    @apply fixed bg-surface-container-highest px-3 py-1.5 rounded-md font-body shadow-md opacity-0 pointer-events-none z-[9999] backdrop-blur-md border border-outline-variant whitespace-nowrap;
+    transform: translate(-50%, -120%);
+    transition: opacity 0.3s ease-out, transform 0.2s ease-out;
+  }
+  
+  #mapa-tooltip.visible {
+    @apply opacity-100;
+    transform: translate(-50%, -150%);
+  }
+  
+  .tooltip-titulo {
+    @apply font-display font-medium text-sm text-on-surface block text-center;
+  }
+
+  /* Custom Scrollbar para la lista lateral */
+  .custom-scrollbar::-webkit-scrollbar {
+    @apply w-2;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-surface-container-low rounded-full;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-outline-variant rounded-full;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    @apply bg-outline;
+  }
 }
 
-.delay-100 {
-  animation-delay: 100ms;
-}
+@layer utilities {
+  /* Wrapper principal del mapa */
+  .mapa-procesos-wrapper {
+    cursor: default;
+  }
 
-.delay-250 {
-  animation-delay: 250ms;
-}
+  /* Efectos suaves sobre los grupos del SVG, excluyendo el grupo general del "Mapa" */
+  .svg-map-container g[id]:not([id="Mapa" i]) {
+    /* Cursor de ubicación cuando estamos dentro de un sitio interactivo */
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="%23276b15" stroke="%23ffffff" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3" fill="%23ffffff"/></svg>') 16 32, pointer !important;
+    transform-origin: 50% 50% !important;
+    transform-box: fill-box !important;
+    @apply transition-all duration-300 ease-in-out;
+  }
 
-.delay-400 {
-  animation-delay: 400ms;
-}
+  @media (hover: hover) {
+    /* Hover individual sobre un sitio: ligero zoom SOLO al ítem, excluyendo el fondo "Mapa" */
+    .svg-map-container g[id]:not([id="Mapa" i]):hover {
+      @apply drop-shadow-sm scale-[1.02] z-10;
+    }
+  }
 
-.delay-550 {
-  animation-delay: 550ms;
-}
+  /* Clase activa (cuando se selecciona de la lista) */
+  .svg-grupo-activo {
+    @apply drop-shadow-md scale-[1.03] z-20;
+  }
 
-/* Reducir movimiento si el usuario lo tiene configurado en su S.O. */
-@media (prefers-reduced-motion: reduce) {
-  .animate-fadeInUp {
-    animation: none !important;
-    transition: none !important;
+  /* Reducir movimiento si el usuario lo tiene configurado en su S.O. */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      @apply animate-none transition-none !important;
+    }
   }
 }

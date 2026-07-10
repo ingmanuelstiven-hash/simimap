@@ -68,6 +68,21 @@ export default {
         'md': '0.75rem',
         'lg': '1rem',
         'xl': '1.5rem',
+      },
+      keyframes: {
+        fadeInUp: {
+          '0%': { opacity: 0, transform: 'translateY(1.5rem)' },
+          '100%': { opacity: 1, transform: 'translateY(0)' },
+        },
+        mapPulse: {
+          '0%, 100%': { filter: 'drop-shadow(0 0 2px rgba(39, 107, 21, 0.4)) brightness(1.0)' },
+          '50%': { filter: 'drop-shadow(0 0 10px rgba(39, 107, 21, 0.8)) brightness(1.05)' },
+        }
+      },
+      animation: {
+        fadeInUp: 'fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both',
+        mapPulse: 'mapPulse 3s infinite ease-in-out',
+        'spin-slow': 'spin 3s linear infinite',
       }
     },
   },
