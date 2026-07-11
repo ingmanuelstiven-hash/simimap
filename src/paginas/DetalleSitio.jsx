@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Pannellum } from "pannellum-react";
@@ -14,8 +13,7 @@ export default function DetalleSitio() {
   const [cargando, setCargando] = useState(true);
   const [tabActivo, setTabActivo] = useState('informacion');
   
-  // Estados para el visor 360
-  const [imagen360Cargada, setImagen360Cargada] = useState(false);
+  // Estado para la instrucción del visor 360
   const [mostrarInstruccion360, setMostrarInstruccion360] = useState(true);
 
   // Buscar la información del sitio
@@ -170,14 +168,6 @@ export default function DetalleSitio() {
                     onMouseDown={() => setMostrarInstruccion360(false)}
                     onTouchStart={() => setMostrarInstruccion360(false)}
                   >
-                    {/* Loader mientras Pannellum descarga y procesa la imagen */}
-                    {!imagen360Cargada && (
-                      <div className="absolute inset-0 bg-surface-variant flex flex-col items-center justify-center z-10">
-                        <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4"></div>
-                        <p className="text-primary font-bold animate-pulse text-lg">Cargando experiencia 360°...</p>
-                      </div>
-                    )}
-                    
                     <Pannellum
                       width="100%"
                       height="100%"
@@ -192,7 +182,6 @@ export default function DetalleSitio() {
                       keyboardZoom={false}
                       autoRotate={-2}
                       onLoad={() => {
-                        setImagen360Cargada(true);
                         // Ocultar la instrucción automáticamente después de 6 segundos
                         setTimeout(() => setMostrarInstruccion360(false), 6000);
                       }}
@@ -200,7 +189,7 @@ export default function DetalleSitio() {
 
                     {/* Instrucción Overlay */}
                     <AnimatePresence>
-                      {imagen360Cargada && mostrarInstruccion360 && (
+                      {mostrarInstruccion360 && (
                         <motion.div 
                           initial={{ opacity: 0 }} 
                           animate={{ opacity: 1 }} 
