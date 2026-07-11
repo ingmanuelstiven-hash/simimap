@@ -16,13 +16,13 @@ const mapaIdASlug = {
 
 // Offsets manuales para ajustar exactamente dónde cae el Pin respecto al centro del elemento SVG
 const pinOffsets = {
-  bahama: { x: 0, y: -25 }, // Ejemplo: subirlo 25px
-  maria: { x: 0, y: -20 },
-  parque: { x: 0, y: -20 },
-  iglesia: { x: 0, y: -20 },
-  cruz: { x: 0, y: -30 },
-  sagrado: { x: 0, y: -30 },
-  lajas: { x: 0, y: -20 },
+  bahama: { x: -75, y: -50 }, // Ejemplo: subirlo 25px
+  maria: { x: 65, y: -35 },
+  parque: { x: 35, y: -56 },
+  iglesia: { x: -70, y: -70 },
+  cruz: { x: -45, y: -60 },
+  sagrado: { x: -60, y: -30 },
+  lajas: { x: 0, y: -50 },
 };
 
 export default function MapaSVG({ onSelectSite, sitioActivo, sitioPin }) {
@@ -147,32 +147,59 @@ export default function MapaSVG({ onSelectSite, sitioActivo, sitioPin }) {
     }
   }, [sitioActivo]);
 
-  // Efecto separado solo para calcular la posición del pin cuando se abre desde la lista
+  // Efecto separado para calcular y actualizar la posición del pin responsivamente
   useEffect(() => {
-    const contenedor = contenedorRef.current;
-    if (!contenedor || !sitioPin) {
-      setPinPos(null);
-      return;
-    }
+    const recalcularPosicion = () => {
+      const contenedor = contenedorRef.current;
+      if (!contenedor || !sitioPin) {
+        setPinPos(null);
+        return;
+      }
 
-    const idNormalizado = sitioPin.toLowerCase();
-    // Buscamos ignorando mayúsculas/minúsculas
-    const grupo = contenedor.querySelector(`g[id="${idNormalizado}" i]`) ||
-      contenedor.querySelector(`g[id="${sitioPin}" i]`);
+      const idNormalizado = sitioPin.toLowerCase();
+      // Buscamos el elemento SVG del sitio
+      const grupo = contenedor.querySelector(`g[id="${idNormalizado}" i]`) || 
+                    contenedor.querySelector(`g[id="${sitioPin}" i]`);
+      
+      if (grupo) {
+        const containerRect = contenedor.getBoundingClientRect();
+        const elementRect = grupo.getBoundingClientRect();
+        
+        // Obtener el ancho base del SVG (viewBox) desde el DOM para calcular la escala
+        const svgElement = contenedor.querySelector('svg');
+        const viewBox = svgElement ? svgElement.viewBox?.baseVal : null;
+        const svgBaseWidth = viewBox && viewBox.width > 0 ? viewBox.width : 1920; // Fallback
+        
+        // Relación de escala actual del mapa respecto a su diseño original
+        const escala = containerRect.width / svgBaseWidth;
+        
+        const offsetOriginal = pinOffsets[idNormalizado] || { x: 0, y: -20 };
+        // Escalamos los offsets para que se adapten al tamaño de pantalla actual
+        const offsetX = offsetOriginal.x * escala;
+        const offsetY = offsetOriginal.y * escala;
+        
+        setPinPos({
+          x: elementRect.left - containerRect.left + elementRect.width / 2 + offsetX,
+          y: elementRect.top - containerRect.top + elementRect.height / 2 + offsetY
+        });
+      } else {
+        setPinPos(null);
+      }
+    };
 
-    if (grupo) {
-      // Calculamos dónde está el grupo para poner el Pin
-      const containerRect = contenedor.getBoundingClientRect();
-      const elementRect = grupo.getBoundingClientRect();
-      const offset = pinOffsets[idNormalizado] || { x: 0, y: -20 };
+    // Ejecutar cálculo inicial
+    recalcularPosicion();
 
-      setPinPos({
-        x: elementRect.left - containerRect.left + elementRect.width / 2 + offset.x,
-        y: elementRect.top - containerRect.top + elementRect.height / 2 + offset.y
-      });
-    } else {
-      setPinPos(null);
-    }
+    // Escuchar cambios de tamaño de ventana para recolocar el pin dinámicamente
+    window.addEventListener('resize', recalcularPosicion);
+    
+    // Pequeño delay de reintento por si el SVG tarda en renderizar y medir sus rectángulos
+    const timeout = setTimeout(recalcularPosicion, 100);
+
+    return () => {
+      window.removeEventListener('resize', recalcularPosicion);
+      clearTimeout(timeout);
+    };
   }, [sitioPin]);
 
   return (
