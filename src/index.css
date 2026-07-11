@@ -46,6 +46,19 @@
   /* Wrapper principal del mapa */
   .mapa-procesos-wrapper {
     cursor: default;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .mapa-procesos-wrapper svg {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
   }
 
   /* Efectos suaves sobre los grupos del SVG, excluyendo el grupo general del "Mapa" */
@@ -74,5 +87,10 @@
     * {
       @apply animate-none transition-none !important;
     }
+  }
+
+  /* Ocultar el loader negro por defecto de Pannellum para usar el nuestro */
+  .pnlm-load-box {
+    display: none !important;
   }
 }
