@@ -79,17 +79,6 @@ export default function Mapa() {
       </AnimatePresence>
 
       <Navbar />
-      
-      {/* Pantalla de bloqueo para móviles y tablets en modo vertical */}
-      <div className="lg:hidden flex-col items-center justify-center fixed inset-0 z-[200] bg-surface text-center p-8 portrait:flex landscape:hidden">
-        <RotateCcw className="w-16 h-16 text-primary animate-spin-slow mb-4" />
-        <h2 className="font-display text-2xl font-bold text-primary mt-2 mb-2">
-          Gira tu dispositivo
-        </h2>
-        <p className="font-body text-on-surface-variant text-lg">
-          Para una mejor experiencia con el mapa interactivo, por favor gira tu dispositivo en modo horizontal.
-        </p>
-      </div>
 
       <main className="flex-1 w-full p-4 lg:p-6 flex flex-row gap-6 overflow-hidden h-full relative">
         {/* Columna Izquierda: El Mapa Interactivo */}
