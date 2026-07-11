@@ -1,0 +1,34 @@
+EXPLICACIÓN DEL FUNCIONAMIENTO DE LA NAVEGACIÓN Y CARGA DEL MAPA (PARA LA TESIS)
+
+Este documento detalla los ajustes realizados en esta fase y cómo explicarlos frente a los profesores en la sustentación de la tesis:
+
+1. CÓMO SE CARGA EL MAPA VECTORIAL (SVG):
+En el componente "MapaSVG.jsx", usamos la capacidad de Vite de importar archivos en crudo agregando "?raw" (import svgRaw from '...svg?raw'). Esto nos da el contenido del SVG como texto/HTML.
+Luego, lo inyectamos directamente en el DOM con "dangerouslySetInnerHTML". Hacemos esto para que el SVG no se cargue como una simple imagen estática (etiqueta <img>), sino que forme parte del documento HTML real de la página. Al estar insertado de esta manera, el navegador reconoce cada uno de los grupos (<g>) y sus IDs individuales que creamos en Illustrator.
+
+2. CÓMO FUNCIONA EL SISTEMA DE CLIC E INTERACCIÓN (DELEGACIÓN DE EVENTOS):
+En lugar de poner un escuchador de eventos ("addEventListener") en cada uno de los elementos individuales (lo cual consumiría mucha memoria y haría el código muy lento), usamos una técnica muy común llamada "Delegación de Eventos".
+Ponemos un único escuchador de eventos en el contenedor principal ("contenedorRef"). Cuando el usuario hace clic en cualquier parte del mapa, el evento "burbujea" (sube) por el DOM. Nosotros capturamos ese evento y con la función "evento.target.closest('g[id]')" buscamos hacia arriba cuál es el grupo con ID más cercano que fue tocado. Si el usuario tocó una zona interactiva, sacamos su ID (por ejemplo: "iglesia") y se lo enviamos a la página principal.
+
+3. MIGRACIÓN Y ENLACE DE DATOS (MAPEO DE IDs A SLUGS):
+Los IDs que vienen del SVG de Illustrator son cortitos ("parque", "iglesia", "cruz"). Sin embargo, las rutas de nuestra SPA en React Router usan nombres amigables (slugs) más descriptivos para la URL ("parque-principal", "parroquia-inmaculada-concepcion").
+Para solucionar esto, creamos un objeto diccionario en "Mapa.jsx" llamado "mapaIdASlug". Cuando se recibe el ID clicado, se pasa a minúsculas para evitar errores tipográficos, se busca en el diccionario para obtener su slug real, y se utiliza la función "navegar" del hook "useNavigate()" de React Router para redirigir al usuario al componente de detalles:
+navigate(`/sitio/${slug}`)
+
+Esto nos permite conectar el mapa vectorial dinámicamente con cualquier sitio de la base de datos local (sitios.js) sin tener que codificar rutas a mano dentro del propio archivo SVG.
+
+4. TOOLTIP NATIVO Y OPTIMIZADO CON ÍCONO DE UBICACIÓN:
+Para mostrar el nombre del lugar al pasar el cursor sobre el mapa, implementamos un Tooltip nativo (DOM) para no recargar el estado de React. 
+El cursor principal de la app siempre es el original (la flecha) para no interferir con la navegación genérica, y al posicionarnos sobre una zona del mapa, el cursor cambia a la manito ("pointer"). Al mismo tiempo, nuestro Tooltip inteligente aparece siguiendo al ratón. Este tooltip está diseñado específicamente para convertirse en un elegante "ícono de ubicación" que incluye el símbolo de un pin y el nombre real del sitio ("Parque Principal"). Así matamos dos pájaros de un tiro: mantenemos la usabilidad del cursor nativo y le damos la información precisa al usuario de forma muy visual.
+
+5. DISEÑO DE INTERFAZ MINIMALISTA (UX/UI):
+Se ajustaron varios detalles de CSS (Tailwind) para que la interfaz se sienta ligera y amigable:
+- Se eliminó cualquier filtro que distorsione los colores del SVG (nada de amarillos extraños). Al pasar el ratón solo se aplica una ligera sombra y un mínimo acercamiento (scale de 1.01) para indicar interactividad de forma sutil.
+- La interacción de la lista lateral y el mapa es independiente; pasar el ratón por el mapa no hace que la lista brille innecesariamente.
+- El Pin rojo principal (el que rebota elásticamente) se reserva EXCLUSIVAMENTE para cuando el usuario abre de forma explícita la tarjeta de un lugar desde la lista desplegable. 
+
+6. PANTALLA DE CARGA FLUIDA Y ANIMACIONES (FRAMER MOTION):
+Añadimos la popular librería de animaciones para React llamada `framer-motion`. Esta se encarga de:
+- Animar el acordeón en la lista lateral, desplegando los ítems de manera fluida (ease-out).
+- Crear una pantalla de carga sutil al inicio (dura menos de 1 segundo). Esta pantalla muestra el logo del proyecto haciendo una animación de latido (pulso) para hacer la transición entre rutas mucho más estética.
+- Todo configurado con curvas de aceleración ligeras y rápidas (200ms) para que la página siempre reaccione en tiempo real sin sentirse pesada.
