@@ -41,8 +41,15 @@ export default function Mapa() {
   const manejarSeleccionSitio = (idDelSvg) => {
     const idNormalizado = idDelSvg.toLowerCase();
     const slug = mapaIdASlug[idNormalizado];
-    if (slug) {
-      navegar(`/sitio/${slug}`);
+    
+    // Si ya está seleccionado/abierto, navegamos al sitio al hacer clic de nuevo
+    if (sitioAbierto === idNormalizado) {
+      if (slug) {
+        navegar(`/sitio/${slug}`);
+      }
+    } else {
+      // Si es el primer clic, solo lo seleccionamos (muestra el Pin y abre la tarjeta)
+      setSitioAbierto(idNormalizado);
     }
   };
 
@@ -105,17 +112,17 @@ export default function Mapa() {
         </div>
 
         {/* Aside/Sidebar para Escritorio (lg en adelante) */}
-        <aside className="hidden lg:flex w-80 lg:w-96 bg-surface rounded-3xl shadow-sm border border-outline-variant flex-col h-full overflow-hidden shrink-0">
-          <div className="p-6 border-b border-outline-variant bg-white z-10">
-            <h2 className="font-display text-2xl font-semibold text-on-surface">
+        <aside className="hidden lg:flex w-64 xl:w-80 2xl:w-96 bg-surface rounded-3xl shadow-sm border border-outline-variant flex-col h-full overflow-hidden shrink-0">
+          <div className="p-4 xl:p-6 border-b border-outline-variant bg-white z-10">
+            <h2 className="font-display text-lg xl:text-xl 2xl:text-2xl font-semibold text-on-surface">
               Lugares Turísticos
             </h2>
-            <p className="text-sm text-on-surface-variant mt-1 font-body">
+            <p className="text-xs xl:text-sm text-on-surface-variant mt-1 font-body">
               Selecciona un destino de la lista
             </p>
           </div>
           
-          <div className="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar">
+          <div className="flex-1 overflow-y-auto p-3 xl:p-4 space-y-3 custom-scrollbar">
             {sitios.map((sitio) => {
               const idDelMapa = slugAMapaId[sitio.slug];
               const estaHover = sitioActivo === idDelMapa;
@@ -128,7 +135,7 @@ export default function Mapa() {
                   onMouseLeave={() => setSitioActivo(null)}
                   onClick={() => setSitioAbierto(estaAbierto ? null : idDelMapa)}
                   className={`
-                    p-4 rounded-xl border cursor-pointer flex flex-col gap-2 
+                    p-3 xl:p-4 rounded-xl border cursor-pointer flex flex-col gap-2 
                     transition-all duration-200 ease-out
                     ${estaAbierto || estaHover
                       ? 'border-primary bg-primary-container/10 shadow-sm ring-1 ring-primary/20'
@@ -136,17 +143,17 @@ export default function Mapa() {
                     }
                   `}
                 >
-                  <div className="flex items-center gap-3">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 transition-colors duration-200 ${
-                      estaAbierto || estaHover ? 'bg-primary text-white scale-110' : 'bg-surface-variant text-on-surface-variant'
+                  <div className="flex items-center gap-2.5 xl:gap-3">
+                    <div className={`w-8 h-8 xl:w-10 xl:h-10 rounded-full flex items-center justify-center shrink-0 transition-colors duration-200 ${
+                      estaAbierto || estaHover ? 'bg-primary text-white scale-105 xl:scale-110' : 'bg-surface-variant text-on-surface-variant'
                     }`}>
-                      <MapPin size={18} />
+                      <MapPin size={16} className="xl:w-[18px] xl:h-[18px]" />
                     </div>
                     <div>
-                      <h4 className={`font-display font-bold transition-colors duration-200 ${estaAbierto || estaHover ? 'text-primary' : 'text-on-surface'}`}>
+                      <h4 className={`font-display text-sm xl:text-base font-bold transition-colors duration-200 ${estaAbierto || estaHover ? 'text-primary' : 'text-on-surface'}`}>
                         {sitio.nombre}
                       </h4>
-                      <p className="text-xs text-on-surface-variant line-clamp-1 mt-0.5">{sitio.categoria}</p>
+                      <p className="text-[10px] xl:text-xs text-on-surface-variant line-clamp-1 mt-0.5">{sitio.categoria}</p>
                     </div>
                   </div>
 
@@ -157,14 +164,14 @@ export default function Mapa() {
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.2, ease: "easeOut" }}
-                        className="overflow-hidden pt-2"
+                        className="overflow-hidden pt-1 xl:pt-2"
                       >
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
                             navegar(`/sitio/${sitio.slug}`);
                           }}
-                          className="w-full py-2.5 mt-2 bg-primary hover:bg-primary-container text-white text-sm font-bold rounded-lg transition-colors duration-200 shadow-sm font-body"
+                          className="w-full py-2 mt-1 xl:mt-2 bg-primary hover:bg-primary-container text-white text-xs xl:text-sm font-bold rounded-lg transition-colors duration-200 shadow-sm font-body"
                         >
                           Ver Información Completa
                         </button>
