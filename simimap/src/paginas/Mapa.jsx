@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from '../componentes/Navbar';
+import Footer from '../componentes/Footer';
 import MapaSVG from '../componentes/MapaSVG';
 import sitios from '../datos/sitios';
 import { MapPin, RotateCcw } from 'lucide-react'; 
@@ -32,7 +33,7 @@ export default function Mapa() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setCargando(false);
-    }, 800); // 800ms de carga
+    }, 400); // Reducido a 400ms de carga
     return () => clearTimeout(timer);
   }, []);
 
@@ -82,9 +83,9 @@ export default function Mapa() {
         </p>
       </div>
 
-      <main className="flex-1 w-full p-4 md:p-6 flex flex-col md:flex-row gap-6 overflow-hidden h-full">
+      <main className="flex-1 w-full 3 p-4 md:p-6 flex flex-col md:flex-row gap-6 overflow-hidden h-full">
         {/* Columna Izquierda: El Mapa Interactivo */}
-        <div className="flex-1 h-full bg-white rounded-3xl shadow-sm border border-outline-variant flex items-center justify-center relative overflow-hidden bg-opacity-70">
+        <div className="flex-1 h-full flex items-center justify-center relative overflow-hidden">
           {/* El mapa ya NO le pasa eventos de hover a la lista para no iluminarla innecesariamente */}
           <MapaSVG 
             onSelectSite={manejarSeleccionSitio} 
@@ -166,6 +167,8 @@ export default function Mapa() {
           </div>
         </aside>
       </main>
+
+      <Footer />
     </div>
   );
 }

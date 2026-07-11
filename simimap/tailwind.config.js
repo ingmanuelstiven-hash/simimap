@@ -52,7 +52,7 @@ export default {
         'on-surface-variant': '#41493c',
         
         // Acentos extras
-        'meadow-bg': '#c3f0d5',
+        'meadow-bg': '#fffff',
         'accent-coral': '#e47468',
         'deep-navy': '#051e67',
         'earth-brown': '#7a473b',

@@ -1,3 +1,5 @@
+import imgParqueLaMaria from '../assets/maria/Parque la maria.webp';
+
 /**
  * Base de datos local de SimiMap.
  *
@@ -137,7 +139,7 @@ const sitios = [
 
     video: "",
 
-    panorama360: ""
+    panorama360: imgParqueLaMaria
   }
 ];
 

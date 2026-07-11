@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Pannellum } from "pannellum-react";
 import Navbar from '../componentes/Navbar';
+import Footer from '../componentes/Footer';
 import sitios from '../datos/sitios';
-import { ArrowLeft, Info, Image as ImageIcon, Video, Box } from 'lucide-react';
+import { ArrowLeft, Info, Image as ImageIcon, Video, Box, MousePointer2 } from 'lucide-react';
 import logoSimimap from '../assets/logo_simimap.svg';
 
 export default function DetalleSitio() {
@@ -11,6 +13,10 @@ export default function DetalleSitio() {
   const navegar = useNavigate();
   const [cargando, setCargando] = useState(true);
   const [tabActivo, setTabActivo] = useState('informacion');
+  
+  // Estados para el visor 360
+  const [imagen360Cargada, setImagen360Cargada] = useState(false);
+  const [mostrarInstruccion360, setMostrarInstruccion360] = useState(true);
 
   // Buscar la información del sitio
   const sitio = sitios.find(s => s.slug === slug);
@@ -19,9 +25,16 @@ export default function DetalleSitio() {
     // Simulamos el tiempo de carga para mostrar el loader personalizado
     const timer = setTimeout(() => {
       setCargando(false);
-    }, 800);
+    }, 400);
     return () => clearTimeout(timer);
   }, [slug]);
+
+  // Si cambiamos de pestaña y volvemos a la 360, resetear estados
+  useEffect(() => {
+    if (tabActivo === '360') {
+      setMostrarInstruccion360(true);
+    }
+  }, [tabActivo]);
 
   if (!sitio && !cargando) {
     return (
@@ -150,10 +163,67 @@ export default function DetalleSitio() {
             {tabActivo === '360' && (
               <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                 <h3 className="text-2xl font-display font-semibold text-on-surface mb-6">Vista Panorámica 360°</h3>
-                <div className="aspect-[21/9] bg-surface-variant rounded-xl w-full flex flex-col items-center justify-center text-on-surface-variant">
-                  <Box size={48} className="mb-4 opacity-50" />
-                  <p>Visualizador interactivo 360°</p>
-                </div>
+                
+                {sitio?.panorama360 ? (
+                  <div 
+                    className="rounded-xl overflow-hidden shadow-sm h-[400px] md:h-[600px] w-full relative z-0 bg-black"
+                    onMouseDown={() => setMostrarInstruccion360(false)}
+                    onTouchStart={() => setMostrarInstruccion360(false)}
+                  >
+                    {/* Loader mientras Pannellum descarga y procesa la imagen */}
+                    {!imagen360Cargada && (
+                      <div className="absolute inset-0 bg-surface-variant flex flex-col items-center justify-center z-10">
+                        <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mb-4"></div>
+                        <p className="text-primary font-bold animate-pulse text-lg">Cargando experiencia 360°...</p>
+                      </div>
+                    )}
+                    
+                    <Pannellum
+                      width="100%"
+                      height="100%"
+                      image={sitio.panorama360}
+                      pitch={10}
+                      yaw={180}
+                      hfov={110}
+                      autoLoad
+                      showZoomCtrl={true}
+                      showFullscreenCtrl={true}
+                      mouseZoom={true} 
+                      keyboardZoom={false}
+                      autoRotate={-2}
+                      onLoad={() => {
+                        setImagen360Cargada(true);
+                        // Ocultar la instrucción automáticamente después de 6 segundos
+                        setTimeout(() => setMostrarInstruccion360(false), 6000);
+                      }}
+                    />
+
+                    {/* Instrucción Overlay */}
+                    <AnimatePresence>
+                      {imagen360Cargada && mostrarInstruccion360 && (
+                        <motion.div 
+                          initial={{ opacity: 0 }} 
+                          animate={{ opacity: 1 }} 
+                          exit={{ opacity: 0 }}
+                          transition={{ duration: 0.5 }}
+                          className="absolute inset-0 pointer-events-none flex flex-col items-center justify-center bg-black/30 z-20"
+                        >
+                          <div className="bg-white/95 backdrop-blur-sm px-8 py-6 rounded-3xl shadow-2xl flex flex-col items-center text-center max-w-sm">
+                            <MousePointer2 className="w-12 h-12 text-primary mb-3 animate-bounce" />
+                            <p className="font-display font-extrabold text-on-surface text-2xl mb-1">Arrastra para explorar</p>
+                            <p className="text-on-surface-variant font-medium">Mueve la imagen en cualquier dirección para ver todo el panorama.</p>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                ) : (
+                  <div className="aspect-[21/9] bg-surface-variant rounded-xl w-full flex flex-col items-center justify-center text-on-surface-variant">
+                    <Box size={48} className="mb-4 opacity-50" />
+                    <p className="font-bold text-lg">Próximamente</p>
+                    <p className="text-sm">Vista 360° en desarrollo para este sitio.</p>
+                  </div>
+                )}
               </motion.div>
             )}
           </div>
@@ -161,11 +231,7 @@ export default function DetalleSitio() {
       )}
 
       {/* Footer Genérico */}
-      <footer className="bg-surface-container-highest border-t border-outline-variant py-6 text-center mt-auto">
-        <p className="text-sm text-on-surface-variant font-bold">
-          © {new Date().getFullYear()} SimiMap - Todos los derechos reservados.
-        </p>
-      </footer>
+      <Footer />
     </div>
   );
 }

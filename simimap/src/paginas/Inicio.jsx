@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import Navbar from '../componentes/Navbar';
+import Footer from '../componentes/Footer';
 import simijBg from '../assets/simij.jpg';
 
 /**
@@ -17,15 +18,15 @@ import simijBg from '../assets/simij.jpg';
  */
 export default function Inicio() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
 
       {/* Barra de navegación */}
       <Navbar />
 
       {/* Sección principal */}
-      <main role="main">
+      <main role="main" className="flex-1 flex flex-col">
         <section
-          className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] text-center py-8 px-4 md:py-8 md:px-16 lg:px-16 overflow-hidden"
+          className="relative flex-1 z-10 flex flex-col items-center justify-center text-center py-8 px-4 md:py-8 md:px-16 lg:px-16 overflow-hidden"
           aria-label="Bienvenida a SimiMap"
         >
           {/* Imagen de fondo */}
@@ -65,6 +66,7 @@ export default function Inicio() {
         </section>
       </main>
 
+      <Footer />
     </div>
   );
 }
