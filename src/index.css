@@ -94,3 +94,111 @@
     display: none !important;
   }
 }
+
+/* ==========================================================================
+   SISTEMA DE ACCESIBILIDAD (WAI-ARIA & WCAG 2.1)
+   ========================================================================== */
+
+/* Indicador de foco accesible para navegación por teclado */
+:focus-visible {
+  outline: 4px solid #8fd975 !important;
+  outline-offset: 4px !important;
+  box-shadow: 0 0 0 6px rgba(143, 217, 117, 0.5) !important;
+}
+
+/* --- MODO ALTO CONTRASTE --- */
+body.accessibility-high-contrast {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+.accessibility-high-contrast * {
+  background-color: transparent !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+}
+
+/* Contenedores principales y de interfaz */
+.accessibility-high-contrast body,
+.accessibility-high-contrast html,
+.accessibility-high-contrast div,
+.accessibility-high-contrast section,
+.accessibility-high-contrast main,
+.accessibility-high-contrast nav,
+.accessibility-high-contrast aside,
+.accessibility-high-contrast footer,
+.accessibility-high-contrast select,
+.accessibility-high-contrast input {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+/* Botones, enlaces y elementos clicables */
+.accessibility-high-contrast button,
+.accessibility-high-contrast a {
+  background-color: #121212 !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+}
+
+/* Títulos, textos primarios, iconos y elementos activos en Amarillo de Alto Contraste */
+.accessibility-high-contrast h1,
+.accessibility-high-contrast h2,
+.accessibility-high-contrast h3,
+.accessibility-high-contrast h4,
+.accessibility-high-contrast strong,
+.accessibility-high-contrast .text-primary,
+.accessibility-high-contrast svg {
+  color: #ffff00 !important;
+  fill: transparent;
+  stroke: #ffff00 !important;
+}
+
+/* Hovers en alto contraste (inversión de colores) */
+.accessibility-high-contrast a:hover,
+.accessibility-high-contrast button:hover,
+.accessibility-high-contrast a:focus,
+.accessibility-high-contrast button:focus {
+  background-color: #ffff00 !important;
+  color: #000000 !important;
+  border-color: #ffff00 !important;
+}
+
+.accessibility-high-contrast a:hover *,
+.accessibility-high-contrast button:hover *,
+.accessibility-high-contrast a:focus *,
+.accessibility-high-contrast button:focus * {
+  color: #000000 !important;
+  stroke: #000000 !important;
+}
+
+/* Indicador de pin animado en el mapa */
+.accessibility-high-contrast img[alt="Pin animado"] {
+  filter: brightness(0) invert(1) sepia(1) saturate(100) hue-rotate(50deg) !important; /* Forzar amarillo */
+}
+
+/* --- TEXTO AGRANDADO --- */
+body.accessibility-large-text {
+  font-size: 1.2rem !important;
+}
+body.accessibility-large-text h1 { font-size: 3rem !important; }
+body.accessibility-large-text h2 { font-size: 2.2rem !important; }
+body.accessibility-large-text h3 { font-size: 1.8rem !important; }
+body.accessibility-large-text p, 
+body.accessibility-large-text span, 
+body.accessibility-large-text a, 
+body.accessibility-large-text button,
+body.accessibility-large-text li {
+  font-size: 1.15rem !important;
+}
+
+/* --- FUENTE DE FÁCIL LECTURA (DISLEXIA / BAJA VISIÓN) --- */
+body.accessibility-readable-font * {
+  font-family: Arial, Helvetica, sans-serif !important;
+  line-height: 1.8 !important;
+  letter-spacing: 0.08em !important;
+  word-spacing: 0.16em !important;
+}
