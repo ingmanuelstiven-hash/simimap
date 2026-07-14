@@ -38,6 +38,16 @@ export default function Navbar() {
         >
           Mapa
         </Link>
+
+        <Link
+          to="/acerca-de"
+          className={`font-body text-[0.9rem] lg:text-base text-on-surface no-underline font-medium py-1 border-b-2 transition-all duration-200 ease-in-out hover:text-primary hover:border-primary focus-visible:text-primary focus-visible:border-primary focus-visible:outline-none ${
+            location.pathname === '/acerca-de' ? 'text-primary border-primary' : 'border-transparent'
+          }`}
+          aria-current={location.pathname === '/acerca-de' ? 'page' : undefined}
+        >
+          Acerca de
+        </Link>
       </div>
 
     </nav>

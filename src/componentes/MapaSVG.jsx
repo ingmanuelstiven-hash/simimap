@@ -37,22 +37,39 @@ export default function MapaSVG({ onSelectSite, sitioActivo, sitioPin }) {
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [pinPos, setPinPos] = useState(null); // Guardamos dónde va a caer el pin animado
 
+  // Estados para separar Clic/Tap del Arrastre (Pan)
+  const [startPos, setStartPos] = useState({ x: 0, y: 0 });
+  const [bloquearClic, setBloquearClic] = useState(false);
+
+  // Efecto para forzar zoom 1 en pantallas grandes ante redimensionamiento
+  useEffect(() => {
+    const checkViewport = () => {
+      if (window.innerWidth >= 1024) {
+        setZoom(1);
+        setPan({ x: 0, y: 0 });
+      }
+    };
+    checkViewport();
+    window.addEventListener('resize', checkViewport);
+    return () => window.removeEventListener('resize', checkViewport);
+  }, []);
+
   useEffect(() => {
     const contenedor = contenedorRef.current;
     const tooltip = tooltipRef.current;
     if (!contenedor || !tooltip) return;
 
-    // Detectar clic para navegar o seleccionar
+    // Detectar clic para navegar o seleccionar (Solo en Escritorio >= 1024px)
     const manejarClick = (evento) => {
-      // Evitar que el clic cuente si estamos arrastrando para hacer pan
-      if (dragging) return;
+      if (window.innerWidth < 1024) return; // En móviles todo se delega al final del toque (touchend)
+      if (bloquearClic) return;
       
       const grupo = evento.target.closest('g[id]');
       if (grupo && grupo.id.toLowerCase() !== 'mapa') {
         const idSvg = grupo.id.toLowerCase();
         onSelectSite(grupo.id);
 
-        // Forzar la visualización del tooltip justo arriba del elemento (útil en móviles)
+        // En escritorio se muestra el tooltip flotante
         tooltip.classList.add('visible');
         const elementRect = grupo.getBoundingClientRect();
         tooltip.style.left = `${elementRect.left + elementRect.width / 2}px`;
@@ -105,10 +122,8 @@ export default function MapaSVG({ onSelectSite, sitioActivo, sitioPin }) {
           </div>
         `;
       } else {
-        // En móviles, esconder el tooltip si no hay interacción sobre un elemento interactivo
-        if (window.innerWidth < 1024 && !evento.target.closest('g[id]')) {
-          tooltip.classList.remove('visible');
-        }
+        // Esconder siempre el tooltip flotante en móviles/tablets para no tapar contenido
+        tooltip.classList.remove('visible');
       }
     };
 
@@ -129,7 +144,7 @@ export default function MapaSVG({ onSelectSite, sitioActivo, sitioPin }) {
       contenedor.removeEventListener('touchmove', manejarMovimiento);
       contenedor.removeEventListener('mouseout', manejarMouseOut);
     };
-  }, [onSelectSite, dragging]);
+  }, [onSelectSite, bloquearClic]);
 
   // Efecto para aplicar la clase activa
   useEffect(() => {
@@ -180,8 +195,11 @@ export default function MapaSVG({ onSelectSite, sitioActivo, sitioPin }) {
         const offsetY = offsetOriginal.y * escala;
         
         setPinPos({
+          // Si el Pin de ubicación se sale por arriba en móvil/tablet, lo desplazamos HACIA ABAJO del elemento
           x: elementRect.left - containerRect.left + elementRect.width / 2 + offsetX,
-          y: elementRect.top - containerRect.top + elementRect.height / 2 + offsetY
+          y: window.innerWidth < 1024 
+            ? elementRect.bottom - containerRect.top + elementRect.height / 2 - offsetY // Desplazado abajo
+            : elementRect.top - containerRect.top + elementRect.height / 2 + offsetY // Arriba en desktop
         });
       } else {
         setPinPos(null);
@@ -214,19 +232,21 @@ export default function MapaSVG({ onSelectSite, sitioActivo, sitioPin }) {
 
   // --- Funciones de Arrastre (Paneo) ---
   const iniciarArrastre = (e) => {
-    if (zoom === 1) return; // Solo desplazar si hay zoom activo
+    if (window.innerWidth >= 1024) return; // En computadoras no hacemos arrastre
+    
     setDragging(true);
     const clientX = e.clientX || (e.touches && e.touches[0].clientX);
     const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+    
     setDragStart({ x: clientX - pan.x, y: clientY - pan.y });
+    setStartPos({ x: clientX, y: clientY });
   };
 
   const moverArrastre = (e) => {
-    if (!dragging || zoom === 1) return;
+    if (!dragging || window.innerWidth >= 1024 || zoom === 1) return;
     const clientX = e.clientX || (e.touches && e.touches[0].clientX);
     const clientY = e.clientY || (e.touches && e.touches[0].clientY);
     
-    // Limitar el rango de movimiento para que el mapa no se salga de la vista
     const limiteX = (zoom - 1) * 200;
     const limiteY = (zoom - 1) * 150;
     
@@ -236,7 +256,37 @@ export default function MapaSVG({ onSelectSite, sitioActivo, sitioPin }) {
     setPan({ x: nuevoX, y: nuevoY });
   };
 
-  const terminarArrastre = () => setDragging(false);
+  const terminarArrastre = (e) => {
+    if (!dragging) return;
+    setDragging(false);
+
+    // Calcular la distancia total del toque/mouse para saber si fue clic o arrastre
+    const clientX = e.clientX || (e.changedTouches && e.changedTouches[0].clientX);
+    const clientY = e.clientY || (e.changedTouches && e.changedTouches[0].clientY);
+
+    if (clientX && clientY) {
+      const dx = clientX - startPos.x;
+      const dy = clientY - startPos.y;
+      const distancia = Math.sqrt(dx * dx + dy * dy);
+      
+      if (distancia > 6) {
+        // Distancia mayor a 6px es un arrastre (paneo); bloqueamos el evento clic por 150ms
+        if (zoom > 1) {
+          setBloquearClic(true);
+          setTimeout(() => setBloquearClic(false), 150);
+        }
+      } else {
+        // Fue un toque/clic rápido (tap)
+        if (window.innerWidth < 1024) {
+          const elem = document.elementFromPoint(clientX, clientY);
+          const grupo = elem?.closest('g[id]');
+          if (grupo && grupo.id.toLowerCase() !== 'mapa') {
+            onSelectSite(grupo.id);
+          }
+        }
+      }
+    }
+  };
 
   return (
     <>
@@ -253,7 +303,7 @@ export default function MapaSVG({ onSelectSite, sitioActivo, sitioPin }) {
             onMouseDown={iniciarArrastre}
             onMouseMove={moverArrastre}
             onMouseUp={terminarArrastre}
-            onMouseLeave={terminarArrastre}
+            onMouseLeave={() => setDragging(false)}
             onTouchStart={iniciarArrastre}
             onTouchMove={moverArrastre}
             onTouchEnd={terminarArrastre}
@@ -262,60 +312,73 @@ export default function MapaSVG({ onSelectSite, sitioActivo, sitioPin }) {
               transform: `scale(${zoom}) translate(${pan.x}px, ${pan.y}px)`,
               transformOrigin: 'center center',
               transition: dragging ? 'none' : 'transform 0.15s ease-out',
-              cursor: zoom > 1 ? (dragging ? 'grabbing' : 'grab') : 'default'
+              cursor: zoom > 1 && window.innerWidth < 1024 ? (dragging ? 'grabbing' : 'grab') : 'default'
             }}
             dangerouslySetInnerHTML={{ __html: svgRaw }}
           />
 
-          {/* Pin animado que aparece SOLO cuando se activa desde la lista lateral */}
           <AnimatePresence>
             {pinPos && sitioPin && (
               <motion.div
-                initial={{ opacity: 0, y: -10, scale: 0.5 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.5 }}
-                transition={{ duration: 0.2, ease: "easeOut" }}
+                transition={{ duration: 0.2 }}
                 className="absolute pointer-events-none z-50 drop-shadow-xl"
                 style={{
                   left: pinPos.x,
                   top: pinPos.y,
-                  transform: 'translate(-50%, -100%)' // Para que apunte justo al centro inferior del pin
+                  transform: window.innerWidth < 1024 
+                    ? 'translate(-50%, 0%)' // Apuntar abajo en móviles
+                    : 'translate(-50%, -100%)' // Apuntar arriba en desktop
                 }}
               >
-                <img
-                  src="https://cdn-icons-png.flaticon.com/512/684/684908.png"
-                  alt="Pin animado"
-                  className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 lg:w-9 lg:h-9 xl:w-10 xl:h-10 animate-bounce"
-                />
+                {/* Contenedor interno animado para rebote infinito por hardware */}
+                <motion.div
+                  animate={{ y: [0, -12, 0] }}
+                  transition={{
+                    repeat: Infinity,
+                    duration: 0.8,
+                    ease: "easeInOut"
+                  }}
+                >
+                  <img
+                    src="https://cdn-icons-png.flaticon.com/512/684/684908.png"
+                    alt="Pin animado"
+                    className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 lg:w-9 lg:h-9 xl:w-10 xl:h-10"
+                  />
+                </motion.div>
               </motion.div>
             )}
           </AnimatePresence>
         </div>
 
-        {/* Barra de controles de zoom fuera de la imagen del mapa (Fila abajo) */}
-        <div className="flex items-center justify-end gap-2.5 p-2 bg-white/40 backdrop-blur-sm border-t border-outline-variant/10 rounded-b-3xl">
-          <button
-            onClick={hacerZoomIn}
-            className="p-1.5 bg-white/80 hover:bg-primary/20 text-on-surface rounded-lg transition-colors border border-outline-variant/10 shadow-sm focus-visible:outline-none flex items-center justify-center"
-            aria-label="Acercar mapa"
-          >
-            <ZoomIn size={14} />
-          </button>
-          <button
-            onClick={hacerZoomOut}
-            className="p-1.5 bg-white/80 hover:bg-primary/20 text-on-surface rounded-lg transition-colors border border-outline-variant/10 shadow-sm focus-visible:outline-none flex items-center justify-center"
-            aria-label="Alejar mapa"
-          >
-            <ZoomOut size={14} />
-          </button>
-          <button
-            onClick={restablecerZoom}
-            className="p-1.5 bg-white/80 hover:bg-primary/20 text-on-surface rounded-lg transition-colors border border-outline-variant/10 shadow-sm focus-visible:outline-none flex items-center justify-center"
-            aria-label="Restablecer tamaño de mapa"
-          >
-            <Maximize size={14} />
-          </button>
-        </div>
+        {/* Barra de controles de zoom (SOLO visible en móviles/tablets < 1024px) */}
+        {window.innerWidth < 1024 && (
+          <div className="flex items-center justify-end gap-2.5 p-2 bg-white/40 backdrop-blur-sm border-t border-outline-variant/10 rounded-b-3xl">
+            <button
+              onClick={hacerZoomIn}
+              className="p-1.5 bg-white/80 hover:bg-primary/20 text-on-surface rounded-lg transition-colors border border-outline-variant/10 shadow-sm focus-visible:outline-none flex items-center justify-center"
+              aria-label="Acercar mapa"
+            >
+              <ZoomIn size={14} />
+            </button>
+            <button
+              onClick={hacerZoomOut}
+              className="p-1.5 bg-white/80 hover:bg-primary/20 text-on-surface rounded-lg transition-colors border border-outline-variant/10 shadow-sm focus-visible:outline-none flex items-center justify-center"
+              aria-label="Alejar mapa"
+            >
+              <ZoomOut size={14} />
+            </button>
+            <button
+              onClick={restablecerZoom}
+              className="p-1.5 bg-white/80 hover:bg-primary/20 text-on-surface rounded-lg transition-colors border border-outline-variant/10 shadow-sm focus-visible:outline-none flex items-center justify-center"
+              aria-label="Restablecer tamaño de mapa"
+            >
+              <Maximize size={14} />
+            </button>
+          </div>
+        )}
       </div>
     </>
   );

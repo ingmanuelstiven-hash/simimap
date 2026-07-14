@@ -1,7 +1,10 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from '../componentes/Navbar';
 import Footer from '../componentes/Footer';
 import simijBg from '../assets/simij.jpg';
+import logoSimimap from '../assets/logo_simimap.svg';
 
 /**
  * Inicio.jsx
@@ -17,8 +20,39 @@ import simijBg from '../assets/simij.jpg';
  * - Animaciones respetan prefers-reduced-motion
  */
 export default function Inicio() {
+  const [cargando, setCargando] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setCargando(false);
+    }, 400);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
+      {/* Loader Personalizado */}
+      <AnimatePresence>
+        {cargando && (
+          <motion.div
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+            className="fixed inset-0 z-[300] bg-surface flex flex-col items-center justify-center"
+          >
+            <motion.img 
+              src={logoSimimap} 
+              alt="Cargando..." 
+              className="w-32 h-32 md:w-40 md:h-40 mb-6 drop-shadow-md"
+              animate={{ scale: [0.95, 1.05, 0.95], opacity: [0.8, 1, 0.8] }}
+              transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+            />
+            <h2 className="font-display text-2xl font-bold text-primary animate-pulse">
+              Cargando SimiMap...
+            </h2>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Barra de navegación */}
       <Navbar />

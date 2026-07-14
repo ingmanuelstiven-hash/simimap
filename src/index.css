@@ -1,6 +1,14 @@
+@import url('https://db.onlinewebfonts.com/c/7409a274f7beeed9b9a8ff5fe5396706?family=Dilo+World');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Forzar tipografía original en los textos y etiquetas del mapa interactivo */
+.mapa-procesos-wrapper svg text, 
+.mapa-procesos-wrapper svg tspan {
+  font-family: 'Dilo World', DiloWorldRegular, system-ui, sans-serif !important;
+}
 
 @layer base {
   html,

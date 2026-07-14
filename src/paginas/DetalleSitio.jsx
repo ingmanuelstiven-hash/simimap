@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Pannellum } from "pannellum-react";
@@ -44,6 +44,9 @@ export default function DetalleSitio() {
   const [cargando, setCargando] = useState(true);
   const [tabActivo, setTabActivo] = useState('informacion');
   
+  // Ref para el contenedor de contenido para hacer scroll al cambiar de pestaña
+  const contenidoRef = useRef(null);
+  
   // Estado para la instrucción del visor 360
   const [mostrarInstruccion360, setMostrarInstruccion360] = useState(true);
 
@@ -85,6 +88,20 @@ export default function DetalleSitio() {
     { id: '360', label: 'Vista 360°', icono: <Box size={18} /> },
   ];
 
+  const cambiarTab = (tabId) => {
+    setTabActivo(tabId);
+    // Hacemos scroll al inicio del contenedor del contenido tras un leve delay
+    setTimeout(() => {
+      if (contenidoRef.current) {
+        // Obtenemos la posición de la barra de navegación para dejar un offset
+        const yOffset = -90; 
+        const element = contenidoRef.current;
+        const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
+    }, 80);
+  };
+
   return (
     <div className="min-h-screen bg-background flex flex-col font-body">
       {/* Loader Personalizado */}
@@ -114,7 +131,7 @@ export default function DetalleSitio() {
 
       {/* Contenido Principal */}
       {!cargando && (
-        <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 flex flex-col">
+        <main className="flex-1 max-w-[95%] w-[95%] mx-auto py-8 flex flex-col">
           {/* Header de la vista con animación slide-up */}
           <motion.div 
             initial="hidden"
@@ -126,7 +143,7 @@ export default function DetalleSitio() {
               onClick={() => navegar('/mapa')}
               className="flex items-center text-primary hover:text-primary-container transition-colors mb-4 font-bold focus:outline-none"
             >
-              <ArrowLeft size={20} className="mr-2 animate-pulse" />
+              <ArrowLeft size={20} className="mr-2" />
               Volver al Mapa
             </button>
             <h1 className="text-4xl md:text-5xl font-display font-bold text-on-surface">
@@ -137,23 +154,24 @@ export default function DetalleSitio() {
             </p>
           </motion.div>
 
-          {/* Sistema de Pestañas (Tabs) con entrada interactiva */}
+          {/* Menú de Pestañas: Grid de 1 columna en móvil y Fila en pantallas grandes */}
           <motion.div 
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15, duration: 0.4 }}
-            className="flex border-b border-outline-variant mb-6 overflow-x-auto custom-scrollbar"
+            className="grid grid-cols-2 md:flex border-b border-outline-variant mb-6 gap-2 md:gap-0 overflow-x-auto custom-scrollbar"
           >
             {pestañas.map((tab) => (
               <button
                 key={tab.id}
-                onClick={() => setTabActivo(tab.id)}
+                onClick={() => cambiarTab(tab.id)}
                 className={`
-                  flex items-center gap-2 py-3 px-6 font-bold whitespace-nowrap transition-all duration-200 border-b-2
+                  flex items-center justify-center md:justify-start gap-2.5 py-3 px-5 font-bold transition-all duration-200 border-2 md:border-t-0 md:border-x-0 md:border-b-2 rounded-xl md:rounded-none
                   ${tabActivo === tab.id 
-                    ? 'border-primary text-primary scale-105' 
-                    : 'border-transparent text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/50'}
+                    ? 'border-primary bg-primary/5 text-primary scale-[1.02] md:bg-transparent md:scale-100' 
+                    : 'border-outline-variant/40 md:border-transparent text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/30'}
                 `}
+                aria-label={`Ver pestaña ${tab.label}`}
               >
                 {tab.icono}
                 {tab.label}
@@ -162,7 +180,10 @@ export default function DetalleSitio() {
           </motion.div>
 
           {/* Contenido de cada Pestaña animado dinámicamente */}
-          <div className="flex-1 bg-surface rounded-2xl shadow-sm border border-outline-variant p-6 md:p-8 min-h-[400px]">
+          <div 
+            ref={contenidoRef}
+            className="flex-1 bg-surface rounded-2xl shadow-sm border border-outline-variant p-6 md:p-8 min-h-[400px]"
+          >
             {tabActivo === 'informacion' && (
               <motion.div 
                 initial="hidden"
@@ -225,7 +246,7 @@ export default function DetalleSitio() {
                   whileHover={{ scale: 1.01 }}
                   className="aspect-video bg-surface-variant rounded-xl w-full max-w-4xl mx-auto flex flex-col items-center justify-center text-on-surface-variant shadow-sm overflow-hidden"
                 >
-                  <Video size={48} className="mb-4 opacity-50 animate-pulse" />
+                  <Video size={48} className="mb-4 opacity-50" />
                   <p>Reproductor de video (YouTube o local)</p>
                 </motion.div>
               </motion.div>
