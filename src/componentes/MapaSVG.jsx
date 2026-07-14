@@ -181,6 +181,7 @@ export default function MapaSVG({ onSelectSite, sitioActivo, sitioPin }) {
                     contenedor.querySelector(`g[id="${sitioPin}" i]`);
       
       if (grupo) {
+        const parentRect = contenedor.parentElement.getBoundingClientRect();
         const containerRect = contenedor.getBoundingClientRect();
         const elementRect = grupo.getBoundingClientRect();
         
@@ -195,11 +196,8 @@ export default function MapaSVG({ onSelectSite, sitioActivo, sitioPin }) {
         const offsetY = offsetOriginal.y * escala;
         
         setPinPos({
-          // Si el Pin de ubicación se sale por arriba en móvil/tablet, lo desplazamos HACIA ABAJO del elemento
-          x: elementRect.left - containerRect.left + elementRect.width / 2 + offsetX,
-          y: window.innerWidth < 1024 
-            ? elementRect.bottom - containerRect.top + elementRect.height / 2 - offsetY // Desplazado abajo
-            : elementRect.top - containerRect.top + elementRect.height / 2 + offsetY // Arriba en desktop
+          x: elementRect.left - parentRect.left + elementRect.width / 2 + offsetX,
+          y: elementRect.top - parentRect.top + elementRect.height / 2 + offsetY
         });
       } else {
         setPinPos(null);
@@ -307,7 +305,7 @@ export default function MapaSVG({ onSelectSite, sitioActivo, sitioPin }) {
             onTouchStart={iniciarArrastre}
             onTouchMove={moverArrastre}
             onTouchEnd={terminarArrastre}
-            className="mapa-procesos-wrapper w-full h-full flex items-center justify-center transition-all"
+            className="mapa-procesos-wrapper svg-map-container w-full h-full flex items-center justify-center transition-all"
             style={{
               transform: `scale(${zoom}) translate(${pan.x}px, ${pan.y}px)`,
               transformOrigin: 'center center',
@@ -328,9 +326,7 @@ export default function MapaSVG({ onSelectSite, sitioActivo, sitioPin }) {
                 style={{
                   left: pinPos.x,
                   top: pinPos.y,
-                  transform: window.innerWidth < 1024 
-                    ? 'translate(-50%, 0%)' // Apuntar abajo en móviles
-                    : 'translate(-50%, -100%)' // Apuntar arriba en desktop
+                  transform: 'translate(-50%, -100%)'
                 }}
               >
                 {/* Contenedor interno animado para rebote infinito por hardware */}

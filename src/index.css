@@ -78,16 +78,33 @@
     @apply transition-all duration-300 ease-in-out;
   }
 
+  @keyframes mapSitePulse {
+    0% {
+      transform: scale(1.02);
+      filter: drop-shadow(0 2px 4px rgba(39, 107, 21, 0.25)) brightness(1);
+    }
+    50% {
+      transform: scale(1.05);
+      filter: drop-shadow(0 4px 10px rgba(39, 107, 21, 0.55)) brightness(1.06);
+    }
+    100% {
+      transform: scale(1.02);
+      filter: drop-shadow(0 2px 4px rgba(39, 107, 21, 0.25)) brightness(1);
+    }
+  }
+
   @media (hover: hover) {
     /* Hover individual sobre un sitio: ligero zoom SOLO al ítem, excluyendo el fondo "Mapa" */
     .svg-map-container g[id]:not([id="Mapa" i]):hover {
-      @apply drop-shadow-sm scale-[1.02] z-10;
+      animation: mapSitePulse 1.8s infinite ease-in-out;
+      @apply z-10;
     }
   }
 
   /* Clase activa (cuando se selecciona de la lista) */
   .svg-grupo-activo {
-    @apply drop-shadow-md scale-[1.03] z-20;
+    animation: mapSitePulse 1.4s infinite ease-in-out;
+    @apply z-20;
   }
 
   /* Reducir movimiento si el usuario lo tiene configurado en su S.O. */

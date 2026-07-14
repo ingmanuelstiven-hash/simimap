@@ -61,7 +61,7 @@ export default function AccesibilidadPanel() {
   };
 
   return (
-    <div className="fixed bottom-4 left-4 z-[250] flex flex-col items-start font-body">
+    <div className="fixed bottom-4 left-4 z-[9999] flex flex-col items-start font-body">
       <AnimatePresence>
         {menuAbierto && (
           <motion.div
