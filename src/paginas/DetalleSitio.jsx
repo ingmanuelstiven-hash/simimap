@@ -83,7 +83,7 @@ export default function DetalleSitio() {
 
   const pestañas = [
     { id: 'informacion', label: 'Información', icono: <Info size={18} /> },
-    { id: 'imagenes', label: 'Imágenes', icono: <ImageIcon size={18} /> },
+    { id: 'imagenes', label: 'Galería', icono: <ImageIcon size={18} /> },
     { id: 'video', label: 'Video', icono: <Video size={18} /> },
     { id: '360', label: 'Vista 360°', icono: <Box size={18} /> },
   ];
@@ -195,7 +195,7 @@ export default function DetalleSitio() {
                   Descripción
                 </motion.h3>
                 
-                <motion.p variants={tabItemVariants} className="text-on-surface-variant leading-relaxed">
+                <motion.p variants={tabItemVariants} className="text-on-surface-variant leading-relaxed text-justify">
                   {sitio?.descripcion || "Descripción detallada del sitio turístico en desarrollo."}
                 </motion.p>
 
@@ -204,7 +204,7 @@ export default function DetalleSitio() {
                     <motion.h3 variants={tabItemVariants} className="text-2xl font-display font-semibold text-on-surface pt-2">
                       Historia
                     </motion.h3>
-                    <motion.p variants={tabItemVariants} className="text-on-surface-variant leading-relaxed">
+                    <motion.p variants={tabItemVariants} className="text-on-surface-variant leading-relaxed text-justify">
                       {sitio.historia}
                     </motion.p>
                   </>
@@ -216,7 +216,7 @@ export default function DetalleSitio() {
                       <MapPin size={18} />
                       Ubicación
                     </h4>
-                    <p className="text-sm text-on-surface-variant leading-relaxed font-medium">
+                    <p className="text-sm text-on-surface-variant leading-relaxed font-medium text-justify">
                       {sitio?.ubicacion || "Indicaciones de ubicación en desarrollo para este sitio."}
                     </p>
                   </div>
