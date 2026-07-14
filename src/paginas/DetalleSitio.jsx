@@ -5,7 +5,7 @@ import { Pannellum } from "pannellum-react";
 import Navbar from '../componentes/Navbar';
 import Footer from '../componentes/Footer';
 import sitios from '../datos/sitios';
-import { ArrowLeft, Info, Image as ImageIcon, Video, Box, MousePointer2 } from 'lucide-react';
+import { ArrowLeft, Info, Image as ImageIcon, Video, Box, MousePointer2, MapPin } from 'lucide-react';
 import logoSimimap from '../assets/logo_simimap.svg';
 
 // Variantes de animación reutilizables para dar dinamismo a la interfaz
