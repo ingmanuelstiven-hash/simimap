@@ -192,16 +192,29 @@ export default function DetalleSitio() {
                 className="space-y-6"
               >
                 <motion.h3 variants={tabItemVariants} className="text-2xl font-display font-semibold text-on-surface">
-                  Historia y Descripción
+                  Descripción
                 </motion.h3>
                 
                 <motion.p variants={tabItemVariants} className="text-on-surface-variant leading-relaxed">
-                  Aquí irá todo el texto descriptivo del sitio turístico, su historia, datos curiosos e información relevante para los visitantes.
+                  {sitio?.descripcion || "Descripción detallada del sitio turístico en desarrollo."}
                 </motion.p>
+
+                {sitio?.historia && (
+                  <>
+                    <motion.h3 variants={tabItemVariants} className="text-2xl font-display font-semibold text-on-surface pt-2">
+                      Historia
+                    </motion.h3>
+                    <motion.p variants={tabItemVariants} className="text-on-surface-variant leading-relaxed">
+                      {sitio.historia}
+                    </motion.p>
+                  </>
+                )}
                 
                 <motion.div variants={tabItemVariants} className="bg-primary-container/20 p-4 rounded-xl mt-4">
                   <h4 className="font-bold text-primary mb-2">Ubicación</h4>
-                  <p className="text-sm text-on-surface">Aquí puedes colocar la dirección o indicaciones para llegar.</p>
+                  <p className="text-sm text-on-surface">
+                    {sitio?.ubicacion || "Indicaciones de ubicación en desarrollo."}
+                  </p>
                 </motion.div>
               </motion.div>
             )}
@@ -216,18 +229,29 @@ export default function DetalleSitio() {
                   Galería Fotográfica
                 </motion.h3>
                 
-                <motion.div variants={tabItemVariants} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                  {[1, 2, 3].map(i => (
-                    <motion.div 
-                      key={i}
-                      whileHover={{ scale: 1.03, rotate: 0.5 }}
-                      transition={{ duration: 0.2 }}
-                      className="aspect-video bg-surface-variant rounded-xl flex items-center justify-center text-on-surface-variant shadow-sm cursor-pointer hover:shadow-md transition-shadow"
-                    >
-                      <ImageIcon size={32} className="opacity-50" />
-                    </motion.div>
-                  ))}
-                </motion.div>
+                {sitio?.imagenes && sitio.imagenes.length > 0 ? (
+                  <motion.div variants={tabItemVariants} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                    {sitio.imagenes.map((img, i) => (
+                      <motion.div 
+                        key={i}
+                        whileHover={{ scale: 1.03, rotate: 0.5 }}
+                        transition={{ duration: 0.2 }}
+                        className="aspect-video rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+                      >
+                        <img src={img} alt={`${sitio.nombre} ${i + 1}`} className="w-full h-full object-cover" />
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                ) : (
+                  <motion.div 
+                    variants={tabItemVariants}
+                    className="aspect-[21/9] bg-surface-variant rounded-xl w-full flex flex-col items-center justify-center text-on-surface-variant"
+                  >
+                    <ImageIcon size={48} className="mb-4 opacity-50" />
+                    <p className="font-bold text-lg">Galería próximamente</p>
+                    <p className="text-sm">Imágenes fotográficas en desarrollo para este sitio.</p>
+                  </motion.div>
+                )}
               </motion.div>
             )}
 
@@ -241,14 +265,34 @@ export default function DetalleSitio() {
                   Recorrido en Video
                 </motion.h3>
                 
-                <motion.div 
-                  variants={tabItemVariants}
-                  whileHover={{ scale: 1.01 }}
-                  className="aspect-video bg-surface-variant rounded-xl w-full max-w-4xl mx-auto flex flex-col items-center justify-center text-on-surface-variant shadow-sm overflow-hidden"
-                >
-                  <Video size={48} className="mb-4 opacity-50" />
-                  <p>Reproductor de video (YouTube o local)</p>
-                </motion.div>
+                {sitio?.video ? (
+                  <motion.div 
+                    variants={tabItemVariants}
+                    className="aspect-video rounded-xl w-full max-w-4xl mx-auto overflow-hidden shadow-md"
+                  >
+                    {sitio.video.includes('youtube.com') || sitio.video.includes('youtu.be') ? (
+                      <iframe 
+                        className="w-full h-full"
+                        src={sitio.video.replace('watch?v=', 'embed/')} 
+                        title="YouTube video player" 
+                        frameBorder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowFullScreen
+                      ></iframe>
+                    ) : (
+                      <video className="w-full h-full object-cover" controls src={sitio.video} />
+                    )}
+                  </motion.div>
+                ) : (
+                  <motion.div 
+                    variants={tabItemVariants}
+                    className="aspect-[21/9] bg-surface-variant rounded-xl w-full flex flex-col items-center justify-center text-on-surface-variant"
+                  >
+                    <Video size={48} className="mb-4 opacity-50" />
+                    <p className="font-bold text-lg">Video próximamente</p>
+                    <p className="text-sm">Recorrido audiovisual en desarrollo para este sitio.</p>
+                  </motion.div>
+                )}
               </motion.div>
             )}
 
