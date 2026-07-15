@@ -13,15 +13,13 @@ function App() {
   return (
     <div className="App">
       <Routes>
-       
+
         <Route path="/" element={<Inicio />} />
         <Route path="/mapa" element={<Mapa />} />
         <Route path="/acerca-de" element={<AcercaDe />} />
-        {/* Ruta dinámica para los sitios turísticos.*/}
         <Route path="/sitio/:slug" element={<DetalleSitio />} />
       </Routes>
 
-      {/* Panel global de Accesibilidad (WAI-ARIA / WCAG) */}
       <AccesibilidadPanel />
     </div>
   );

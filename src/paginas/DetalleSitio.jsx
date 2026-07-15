@@ -5,16 +5,16 @@ import { Pannellum } from "pannellum-react";
 import Navbar from '../componentes/Navbar';
 import Footer from '../componentes/Footer';
 import sitios from '../datos/sitios';
-import { ArrowLeft, Info, Image as ImageIcon, Video, Box, MousePointer2, MapPin } from 'lucide-react';
+import { ArrowLeft, Info, Image as ImageIcon, Video, Box, MousePointer2, MapPin, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import logoSimimap from '../assets/logo_simimap.svg';
 
 // Variantes de animación reutilizables para dar dinamismo a la interfaz
 const fadeUpVariants = {
   hidden: { opacity: 0, y: 25 },
-  visible: { 
-    opacity: 1, 
-    y: 0, 
-    transition: { duration: 0.5, ease: "easeOut" } 
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: "easeOut" }
   }
 };
 
@@ -31,27 +31,55 @@ const tabContainerVariants = {
 
 const tabItemVariants = {
   hidden: { opacity: 0, y: 15 },
-  visible: { 
-    opacity: 1, 
-    y: 0, 
-    transition: { duration: 0.4, ease: "easeOut" } 
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: "easeOut" }
   }
 };
 
 export default function DetalleSitio() {
   const { slug } = useParams();
   const navegar = useNavigate();
+
+  // Buscar la información del sitio primero
+  const sitio = sitios.find(s => s.slug === slug);
+
   const [cargando, setCargando] = useState(true);
   const [tabActivo, setTabActivo] = useState('informacion');
-  
+
   // Ref para el contenedor de contenido para hacer scroll al cambiar de pestaña
   const contenidoRef = useRef(null);
-  
+
   // Estado para la instrucción del visor 360
   const [mostrarInstruccion360, setMostrarInstruccion360] = useState(true);
 
-  // Buscar la información del sitio
-  const sitio = sitios.find(s => s.slug === slug);
+  // Estado para la galería ampliada (Lightbox)
+  const [indiceImagenActiva, setIndiceImagenActiva] = useState(null);
+
+  const mostrarImagenAnterior = (e) => {
+    if (e) e.stopPropagation();
+    if (!sitio?.imagenes) return;
+    setIndiceImagenActiva((prev) => (prev === 0 ? sitio.imagenes.length - 1 : prev - 1));
+  };
+
+  const mostrarImagenSiguiente = (e) => {
+    if (e) e.stopPropagation();
+    if (!sitio?.imagenes) return;
+    setIndiceImagenActiva((prev) => (prev === sitio.imagenes.length - 1 ? 0 : prev + 1));
+  };
+
+  useEffect(() => {
+    const manejarTeclado = (e) => {
+      if (indiceImagenActiva === null) return;
+      if (e.key === 'Escape') setIndiceImagenActiva(null);
+      if (e.key === 'ArrowLeft') mostrarImagenAnterior();
+      if (e.key === 'ArrowRight') mostrarImagenSiguiente();
+    };
+
+    window.addEventListener('keydown', manejarTeclado);
+    return () => window.removeEventListener('keydown', manejarTeclado);
+  }, [indiceImagenActiva, sitio]);
 
   useEffect(() => {
     // Simulamos el tiempo de carga para mostrar el loader personalizado
@@ -94,7 +122,7 @@ export default function DetalleSitio() {
     setTimeout(() => {
       if (contenidoRef.current) {
         // Obtenemos la posición de la barra de navegación para dejar un offset
-        const yOffset = -90; 
+        const yOffset = -90;
         const element = contenidoRef.current;
         const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
         window.scrollTo({ top: y, behavior: 'smooth' });
@@ -113,9 +141,9 @@ export default function DetalleSitio() {
             transition={{ duration: 0.4, ease: "easeInOut" }}
             className="fixed inset-0 z-[300] bg-surface flex flex-col items-center justify-center"
           >
-            <motion.img 
-              src={logoSimimap} 
-              alt="Cargando..." 
+            <motion.img
+              src={logoSimimap}
+              alt="Cargando..."
               className="w-32 h-32 md:w-40 md:h-40 mb-6 drop-shadow-md"
               animate={{ scale: [0.95, 1.05, 0.95], opacity: [0.8, 1, 0.8] }}
               transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
@@ -133,13 +161,13 @@ export default function DetalleSitio() {
       {!cargando && (
         <main className="flex-1 max-w-[95%] w-[95%] mx-auto py-8 flex flex-col">
           {/* Header de la vista con animación slide-up */}
-          <motion.div 
+          <motion.div
             initial="hidden"
             animate="visible"
             variants={fadeUpVariants}
             className="mb-8 mt-4"
           >
-            <button 
+            <button
               onClick={() => navegar('/mapa')}
               className="flex items-center text-primary hover:text-primary-container transition-colors mb-4 font-bold focus:outline-none"
             >
@@ -155,7 +183,7 @@ export default function DetalleSitio() {
           </motion.div>
 
           {/* Menú de Pestañas: Grid de 1 columna en móvil y Fila en pantallas grandes */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.15, duration: 0.4 }}
@@ -167,8 +195,8 @@ export default function DetalleSitio() {
                 onClick={() => cambiarTab(tab.id)}
                 className={`
                   flex items-center justify-center md:justify-start gap-2.5 py-3 px-5 font-bold transition-all duration-200 border-2 md:border-t-0 md:border-x-0 md:border-b-2 rounded-xl md:rounded-none
-                  ${tabActivo === tab.id 
-                    ? 'border-primary bg-primary/5 text-primary scale-[1.02] md:bg-transparent md:scale-100' 
+                  ${tabActivo === tab.id
+                    ? 'border-primary bg-primary/5 text-primary scale-[1.02] md:bg-transparent md:scale-100'
                     : 'border-outline-variant/40 md:border-transparent text-on-surface-variant hover:text-on-surface hover:bg-surface-variant/30'}
                 `}
                 aria-label={`Ver pestaña ${tab.label}`}
@@ -180,12 +208,12 @@ export default function DetalleSitio() {
           </motion.div>
 
           {/* Contenido de cada Pestaña animado dinámicamente */}
-          <div 
+          <div
             ref={contenidoRef}
             className="flex-1 bg-surface rounded-2xl shadow-sm border border-outline-variant p-6 md:p-8 min-h-[400px]"
           >
             {tabActivo === 'informacion' && (
-              <motion.div 
+              <motion.div
                 initial="hidden"
                 animate="visible"
                 variants={tabContainerVariants}
@@ -194,7 +222,7 @@ export default function DetalleSitio() {
                 <motion.h3 variants={tabItemVariants} className="text-2xl font-display font-semibold text-on-surface">
                   Descripción
                 </motion.h3>
-                
+
                 <motion.p variants={tabItemVariants} className="text-on-surface-variant leading-relaxed text-justify">
                   {sitio?.descripcion || "Descripción detallada del sitio turístico en desarrollo."}
                 </motion.p>
@@ -209,8 +237,8 @@ export default function DetalleSitio() {
                     </motion.p>
                   </>
                 )}
-                
-                 <motion.div variants={tabItemVariants} className="bg-primary-container/10 border border-primary/20 p-5 rounded-2xl mt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+
+                <motion.div variants={tabItemVariants} className="bg-primary-container/10 border border-primary/20 p-5 rounded-2xl mt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div className="flex-1">
                     <h4 className="font-display font-extrabold text-primary text-base mb-1.5 flex items-center gap-2">
                       <MapPin size={18} />
@@ -220,7 +248,7 @@ export default function DetalleSitio() {
                       {sitio?.ubicacion || "Indicaciones de ubicación en desarrollo para este sitio."}
                     </p>
                   </div>
-                  
+
                   {sitio?.ubicacion && (
                     <a
                       href={sitio?.googleMaps || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(sitio?.nombre + ', Simijaca, Cundinamarca')}`}
@@ -240,7 +268,7 @@ export default function DetalleSitio() {
             )}
 
             {tabActivo === 'imagenes' && (
-              <motion.div 
+              <motion.div
                 initial="hidden"
                 animate="visible"
                 variants={tabContainerVariants}
@@ -248,22 +276,23 @@ export default function DetalleSitio() {
                 <motion.h3 variants={tabItemVariants} className="text-2xl font-display font-semibold text-on-surface mb-6">
                   Galería Fotográfica
                 </motion.h3>
-                
+
                 {sitio?.imagenes && sitio.imagenes.length > 0 ? (
                   <motion.div variants={tabItemVariants} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                     {sitio.imagenes.map((img, i) => (
-                      <motion.div 
+                      <motion.div
                         key={i}
                         whileHover={{ scale: 1.03, rotate: 0.5 }}
                         transition={{ duration: 0.2 }}
-                        className="aspect-video rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+                        className="aspect-video rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+                        onClick={() => setIndiceImagenActiva(i)}
                       >
                         <img src={img} alt={`${sitio.nombre} ${i + 1}`} className="w-full h-full object-cover" />
                       </motion.div>
                     ))}
                   </motion.div>
                 ) : (
-                  <motion.div 
+                  <motion.div
                     variants={tabItemVariants}
                     className="aspect-[21/9] bg-surface-variant rounded-xl w-full flex flex-col items-center justify-center text-on-surface-variant"
                   >
@@ -276,27 +305,25 @@ export default function DetalleSitio() {
             )}
 
             {tabActivo === 'video' && (
-              <motion.div 
+              <motion.div
                 initial="hidden"
                 animate="visible"
                 variants={tabContainerVariants}
               >
-                <motion.h3 variants={tabItemVariants} className="text-2xl font-display font-semibold text-on-surface mb-6">
-                  Recorrido en Video
-                </motion.h3>
-                
+
+
                 {sitio?.video ? (
-                  <motion.div 
+                  <motion.div
                     variants={tabItemVariants}
-                    className="aspect-video rounded-xl w-full max-w-4xl mx-auto overflow-hidden shadow-md"
+                    className="aspect-video rounded-2xl w-full md:w-[100%] lg:w-[100%] max-w-4xl mx-auto overflow-hidden shadow-lg border border-outline-variant/40"
                   >
                     {sitio.video.includes('youtube.com') || sitio.video.includes('youtu.be') ? (
-                      <iframe 
+                      <iframe
                         className="w-full h-full"
-                        src={sitio.video.replace('watch?v=', 'embed/')} 
-                        title="YouTube video player" 
-                        frameBorder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        src={sitio.video.replace('watch?v=', 'embed/')}
+                        title="YouTube video player"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowFullScreen
                       ></iframe>
                     ) : (
@@ -304,7 +331,7 @@ export default function DetalleSitio() {
                     )}
                   </motion.div>
                 ) : (
-                  <motion.div 
+                  <motion.div
                     variants={tabItemVariants}
                     className="aspect-[21/9] bg-surface-variant rounded-xl w-full flex flex-col items-center justify-center text-on-surface-variant"
                   >
@@ -317,7 +344,7 @@ export default function DetalleSitio() {
             )}
 
             {tabActivo === '360' && (
-              <motion.div 
+              <motion.div
                 initial="hidden"
                 animate="visible"
                 variants={tabContainerVariants}
@@ -325,9 +352,9 @@ export default function DetalleSitio() {
                 <motion.h3 variants={tabItemVariants} className="text-2xl font-display font-semibold text-on-surface mb-6">
                   Vista Panorámica 360°
                 </motion.h3>
-                
+
                 {sitio?.panorama360 ? (
-                  <motion.div 
+                  <motion.div
                     variants={tabItemVariants}
                     className="rounded-xl overflow-hidden shadow-md h-[400px] md:h-[600px] w-full relative z-0 bg-black border border-outline-variant"
                     onMouseDown={() => setMostrarInstruccion360(false)}
@@ -343,7 +370,7 @@ export default function DetalleSitio() {
                       autoLoad
                       showZoomCtrl={true}
                       showFullscreenCtrl={true}
-                      mouseZoom={true} 
+                      mouseZoom={true}
                       keyboardZoom={false}
                       autoRotate={-2}
                       onLoad={() => {
@@ -355,14 +382,14 @@ export default function DetalleSitio() {
                     {/* Instrucción Overlay con animación de pulso */}
                     <AnimatePresence>
                       {mostrarInstruccion360 && (
-                        <motion.div 
-                          initial={{ opacity: 0 }} 
-                          animate={{ opacity: 1 }} 
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
                           exit={{ opacity: 0 }}
                           transition={{ duration: 0.5 }}
                           className="absolute inset-0 pointer-events-none flex flex-col items-center justify-center bg-black/30 z-20"
                         >
-                          <motion.div 
+                          <motion.div
                             initial={{ scale: 0.9 }}
                             animate={{ scale: 1 }}
                             className="bg-white/95 backdrop-blur-sm px-8 py-6 rounded-3xl shadow-2xl flex flex-col items-center text-center max-w-sm"
@@ -376,7 +403,7 @@ export default function DetalleSitio() {
                     </AnimatePresence>
                   </motion.div>
                 ) : (
-                  <motion.div 
+                  <motion.div
                     variants={tabItemVariants}
                     className="aspect-[21/9] bg-surface-variant rounded-xl w-full flex flex-col items-center justify-center text-on-surface-variant"
                   >
@@ -393,6 +420,67 @@ export default function DetalleSitio() {
 
       {/* Footer Genérico */}
       <Footer />
+
+      {/* Lightbox / Galería Ampliada Modal */}
+      <AnimatePresence>
+        {indiceImagenActiva !== null && sitio?.imagenes && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[10000] bg-black/90 flex items-center justify-center p-4 backdrop-blur-sm"
+            onClick={() => setIndiceImagenActiva(null)}
+          >
+            {/* Botón de cerrar */}
+            <button
+              onClick={() => setIndiceImagenActiva(null)}
+              className="absolute top-4 right-4 text-white hover:text-primary transition-colors p-2 bg-white/10 hover:bg-white/20 rounded-full z-50 focus-visible:outline-none"
+              aria-label="Cerrar galería"
+            >
+              <X size={24} />
+            </button>
+
+            {/* Contenedor principal de la imagen y controles */}
+            <div className="relative max-w-5xl w-full max-h-[85vh] flex items-center justify-center" onClick={(e) => e.stopPropagation()}>
+
+              {/* Botón Anterior */}
+              <button
+                onClick={mostrarImagenAnterior}
+                className="absolute left-2 md:-left-16 text-white hover:text-primary transition-colors p-3 bg-black/40 hover:bg-black/60 md:bg-white/10 md:hover:bg-white/20 rounded-full z-10 focus-visible:outline-none"
+                aria-label="Imagen anterior"
+              >
+                <ChevronLeft size={28} />
+              </button>
+
+              {/* Imagen activa con animación de cambio de slide */}
+              <motion.img
+                key={indiceImagenActiva}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.25 }}
+                src={sitio.imagenes[indiceImagenActiva]}
+                alt={`${sitio.nombre} ampliada ${indiceImagenActiva + 1}`}
+                className="max-w-full max-h-[80vh] object-contain rounded-2xl select-none shadow-2xl border border-white/5"
+              />
+
+              {/* Botón Siguiente */}
+              <button
+                onClick={mostrarImagenSiguiente}
+                className="absolute right-2 md:-right-16 text-white hover:text-primary transition-colors p-3 bg-black/40 hover:bg-black/60 md:bg-white/10 md:hover:bg-white/20 rounded-full z-10 focus-visible:outline-none"
+                aria-label="Imagen siguiente"
+              >
+                <ChevronRight size={28} />
+              </button>
+            </div>
+
+            {/* Indicador de posición (ej: 3 / 12) */}
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/80 bg-black/50 px-4 py-1.5 rounded-full text-sm font-semibold tracking-wider font-body border border-white/5">
+              {indiceImagenActiva + 1} / {sitio.imagenes.length}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

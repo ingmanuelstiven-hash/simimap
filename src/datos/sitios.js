@@ -1,17 +1,8 @@
 import imgParqueLaMaria from '../assets/maria/Parque la maria.webp';
-import mariaGaleria1 from '../assets/maria/galeria/Parque la maria (1).webp';
-import mariaGaleria2 from '../assets/maria/galeria/Parque la maria (2).webp';
-import mariaGaleria3 from '../assets/maria/galeria/Parque la maria (3).webp';
-import mariaGaleria4 from '../assets/maria/galeria/Parque la maria (4).webp';
-import mariaGaleria5 from '../assets/maria/galeria/Parque la maria (5).webp';
-import mariaGaleria6 from '../assets/maria/galeria/Parque la maria (6).webp';
-import mariaGaleria7 from '../assets/maria/galeria/Parque la maria (7).webp';
-import mariaGaleria8 from '../assets/maria/galeria/Parque la maria (8).webp';
-import mariaGaleria9 from '../assets/maria/galeria/Parque la maria (9).webp';
-import mariaGaleria10 from '../assets/maria/galeria/Parque la maria (10).webp';
-import mariaGaleria11 from '../assets/maria/galeria/Parque la maria (11).webp';
-import mariaGaleria12 from '../assets/maria/galeria/Parque la maria (12).webp';
-import mariaGaleria13 from '../assets/maria/galeria/Parque la maria (13).webp';
+import videoLaMaria from '../assets/maria/video/La maria.mp4';
+const mariaGaleria = Object.values(
+import.meta.glob('../assets/maria/galeria/*.{png,jpg,jpeg,svg,webp}', { eager: true, import: 'default' })
+);
 
 /**
  * Base de datos local de SimiMap.
@@ -144,12 +135,8 @@ const sitios = [
     descripcion: "El Parque Ecológico y Recreativo 'La María' es un espacio de esparcimiento, integración y aprovechamiento del tiempo libre que ofrece hermosos paisajes, zonas verdes, un lago, kioscos y áreas de BBQ, parque infantil, pista didáctica de tránsito, salón de eventos, canchas deportivas (fútbol, voleibol y tejo), animales de granja y llamas. Su principal atractivo moderno es el 'Laberinto de La Lechuza', un escenario cultural y ambiental de 1.350 metros cuadrados destinado a la educación ecológica, donde se imparten charlas sobre árboles nativos y se complementa con la visita al vivero municipal 'Héroes de mi Patria'. El parque opera en un ambiente enfocado en el turismo de naturaleza, familiar y educativo, con un horario de atención los sábados, domingos y festivos de 9:00 a.m. a 5:00 p.m.",
     historia: "El terreno del parque fue donado por el señor Agustín Parra, habitante de Simijaca, y actualmente es de propiedad del municipio. La atracción principal del complejo, el 'Laberinto de La Lechuza', inició su construcción en marzo de 2020 utilizando un poco más de 4.000 plantas de Eugenias en una extensión de 1.350 metros cuadrados. Tomó cerca de tres años y unos meses de desarrollo hasta su inauguración oficial, realizada por la Administración Municipal ('Simijaca Nos Une') en cabeza del alcalde Edgar Aguilar Castro, con la presencia de la gestora social María Teresa Suárez y 250 estudiantes de la I.E.D. Agustín Parra.",
     ubicacion: "El parque se encuentra ubicado en una de las entradas al municipio de Simijaca, en el kilómetro 1,5 de la vía que conduce de Simijaca hacia Chiquinquirá (Boyacá) o viceversa. Se sitúa en el lado derecho de la carretera, justo frente a la empresa de productos Gloria Colombia (antes Lechesan), y está integrado dentro del mismo Parque Ecológico y Recreativo La María.",
-    imagenes: [
-      mariaGaleria1, mariaGaleria2, mariaGaleria3, mariaGaleria4, mariaGaleria5,
-      mariaGaleria6, mariaGaleria7, mariaGaleria8, mariaGaleria9, mariaGaleria10,
-      mariaGaleria11, mariaGaleria12, mariaGaleria13
-    ],
-    video: "",
+    imagenes: mariaGaleria,
+    video: videoLaMaria,
     panorama360: imgParqueLaMaria,
     googleMaps: "https://www.google.com/maps/place/Parque+Ecol%C3%B3gico+y+Recreativo+La+Mar%C3%ADa/@5.5645,-73.8344,17z"
   }
