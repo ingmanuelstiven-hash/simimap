@@ -249,9 +249,9 @@ export default function DetalleSitio() {
                     </p>
                   </div>
 
-                  {sitio?.ubicacion && (
+                  {sitio?.googleMaps && (
                     <a
-                      href={sitio?.googleMaps || `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(sitio?.nombre + ', Simijaca, Cundinamarca')}`}
+                      href={sitio.googleMaps}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center justify-center gap-2.5 px-5 py-3 bg-white hover:bg-primary-container/10 border border-primary/30 text-primary hover:text-primary-container text-sm font-bold rounded-xl transition-all duration-200 shadow-sm shrink-0 self-start sm:self-auto no-underline"
@@ -310,25 +310,17 @@ export default function DetalleSitio() {
                 animate="visible"
                 variants={tabContainerVariants}
               >
-
-
                 {sitio?.video ? (
                   <motion.div
                     variants={tabItemVariants}
                     className="aspect-video rounded-2xl w-full md:w-[100%] lg:w-[100%] max-w-4xl mx-auto overflow-hidden shadow-lg border border-outline-variant/40"
                   >
-                    {sitio.video.includes('youtube.com') || sitio.video.includes('youtu.be') ? (
-                      <iframe
-                        className="w-full h-full"
-                        src={sitio.video.replace('watch?v=', 'embed/')}
-                        title="YouTube video player"
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      ></iframe>
-                    ) : (
-                      <video className="w-full h-full object-cover" controls src={sitio.video} />
-                    )}
+                      <video 
+                        className="w-full h-full object-cover" 
+                        controls 
+                        preload="metadata" 
+                        src={sitio.video} 
+                      />
                   </motion.div>
                 ) : (
                   <motion.div
