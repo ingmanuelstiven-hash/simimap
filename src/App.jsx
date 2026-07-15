@@ -9,11 +9,11 @@ import AccesibilidadPanel from './componentes/AccesibilidadPanel';
  * App.jsx ahora actúa como el "director de tráfico".
  * Define qué componente se dibuja según la URL.
  */
+
 function App() {
   return (
     <div className="App">
       <Routes>
-
         <Route path="/" element={<Inicio />} />
         <Route path="/mapa" element={<Mapa />} />
         <Route path="/acerca-de" element={<AcercaDe />} />
