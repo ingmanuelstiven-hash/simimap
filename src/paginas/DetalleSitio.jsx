@@ -374,8 +374,7 @@ export default function DetalleSitio() {
                       keyboardZoom={false}
                       autoRotate={-2}
                       onLoad={() => {
-                        // Ocultar la instrucción automáticamente después de 6 segundos
-                        setTimeout(() => setMostrarInstruccion360(false), 6000);
+                      setTimeout(() => setMostrarInstruccion360(false), 6000);
                       }}
                     />
 
