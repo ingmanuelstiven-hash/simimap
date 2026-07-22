@@ -59,8 +59,9 @@ export default function MapaSVG({ onSelectSite, sitioActivo, sitioPin }) {
     const tooltip = tooltipRef.current;
     if (!contenedor || !tooltip) return;
 
-    // Detectar clic o toque rápido para navegar o seleccionar (Funciona en móviles y escritorio)
+    // Detectar clic para navegar o seleccionar (Solo en Escritorio >= 1024px)
     const manejarClick = (evento) => {
+      if (window.innerWidth < 1024) return; // En móviles todo se delega al final del toque (touchend)
       if (bloquearClic) return;
       
       const grupo = evento.target.closest('g[id]');
@@ -68,27 +69,25 @@ export default function MapaSVG({ onSelectSite, sitioActivo, sitioPin }) {
         const idSvg = grupo.id.toLowerCase();
         onSelectSite(grupo.id);
 
-        // Solo en pantallas grandes de escritorio se muestra el tooltip flotante que sigue al cursor
-        if (window.innerWidth >= 1024) {
-          tooltip.classList.add('visible');
-          const elementRect = grupo.getBoundingClientRect();
-          tooltip.style.left = `${elementRect.left + elementRect.width / 2}px`;
-          tooltip.style.top = `${elementRect.top - 10}px`;
+        // En escritorio se muestra el tooltip flotante
+        tooltip.classList.add('visible');
+        const elementRect = grupo.getBoundingClientRect();
+        tooltip.style.left = `${elementRect.left + elementRect.width / 2}px`;
+        tooltip.style.top = `${elementRect.top - 10}px`;
 
-          const slug = mapaIdASlug[idSvg];
-          const sitioEncontrado = sitios.find(s => s.slug === slug);
-          const nombreMostrar = sitioEncontrado ? sitioEncontrado.nombre : idSvg;
+        const slug = mapaIdASlug[idSvg];
+        const sitioEncontrado = sitios.find(s => s.slug === slug);
+        const nombreMostrar = sitioEncontrado ? sitioEncontrado.nombre : idSvg;
 
-          tooltip.innerHTML = `
-            <div class="flex items-center gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                <circle cx="12" cy="10" r="3"></circle>
-              </svg>
-              <span class="tooltip-titulo">${nombreMostrar}</span>
-            </div>
-          `;
-        }
+        tooltip.innerHTML = `
+          <div class="flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-primary">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <span class="tooltip-titulo">${nombreMostrar}</span>
+          </div>
+        `;
       }
     };
 
@@ -272,6 +271,15 @@ export default function MapaSVG({ onSelectSite, sitioActivo, sitioPin }) {
       if (distancia > 15 && zoom > 1) {
         setBloquearClic(true);
         setTimeout(() => setBloquearClic(false), 150);
+      } else {
+        // Fue un toque/clic rápido (tap) en móviles
+        if (window.innerWidth < 1024) {
+          const elem = document.elementFromPoint(clientX, clientY);
+          const grupo = elem?.closest('g[id]');
+          if (grupo && grupo.id.toLowerCase() !== 'mapa') {
+            onSelectSite(grupo.id);
+          }
+        }
       }
     }
   };
