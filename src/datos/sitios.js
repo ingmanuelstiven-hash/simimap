@@ -118,7 +118,7 @@ const sitios = [
 
     historia: "Nacio desde una laguna encatada que se formo en el sector de bahama, la cual fue desecada por los habitantes del municipio para poder sembrar y cultivar alimentos. Aun asi, el sector bahama sigue siendo un lugar de gran importancia para la comunidad local y para aquellos que buscan conectarse con la naturaleza y disfrutar de la tranquilidad del entorno natural.",
 
-    ubicacion: "",
+    ubicacion: "sdfsd",
 
     imagenes: [],
 
