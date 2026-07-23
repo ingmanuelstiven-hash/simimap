@@ -319,6 +319,7 @@ export default function DetalleSitio() {
                         className="w-full h-full object-cover" 
                         controls 
                         preload="metadata" 
+                        playsInline
                         src={sitio.video} 
                       />
                   </motion.div>
