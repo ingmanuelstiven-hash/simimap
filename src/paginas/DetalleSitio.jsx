@@ -320,6 +320,7 @@ export default function DetalleSitio() {
                         controls 
                         preload="metadata" 
                         playsInline
+                        muted
                         src={sitio.video} 
                       />
                   </motion.div>
