@@ -321,8 +321,10 @@ export default function DetalleSitio() {
                         preload="metadata" 
                         playsInline
                         muted
-                        src={sitio.video} 
-                      />
+                      >
+                        <source src={sitio.video} type="video/mp4" />
+                        Tu navegador no soporta la reproducción de este video.
+                      </video>
                   </motion.div>
                 ) : (
                   <motion.div
