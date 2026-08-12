@@ -19,6 +19,12 @@ const lajasGallery = Object.values(
 const sagradoGallery = Object.values(
   import.meta.glob('../assets/sagrado/galeria/*.webp', { eager: true, import: 'default' })
 );
+const parqueGallery = Object.values(
+  import.meta.glob('../assets/parque/galeria/*.webp', { eager: true, import: 'default' })
+);
+const iglesiaGallery = Object.values(
+  import.meta.glob('../assets/iglesia/galeria/*.webp', { eager: true, import: 'default' })
+);
 
 /**
  * Base de datos local de SimiMap.
@@ -35,10 +41,10 @@ const sitios = [
     descripcion: "El Parque Principal de Simijaca es el corazón cultural del municipio, rodeado de arquitectura colonial, jardines coloridos y un ambiente pacífico donde locales y turistas se reúnen cotidianamente.",
     historia: "Históricamente ha sido el centro geográfico y social desde la refundación del municipio, albergando los principales eventos cívicos, políticos y religiosos de la comunidad de Simijaca.",
     ubicacion: "Ubicado en el centro urbano del municipio, entre las Calles 8 y 9 y Carreras 7 y 8.",
-    imagenes: [imgSimijacaGeneral],
+    imagenes: parqueGallery,
     video: "",
     panorama360: "",
-    googleMaps: "https://www.google.com/maps/place/Parque+Principal+Simijaca" // Ejemplo rellenable
+    googleMaps: "https://www.google.com/maps/place/Parque+Principal+Simijaca" 
   },
 
   {
@@ -63,7 +69,7 @@ const sitios = [
     descripcion: "La iglesia principal de Simijaca, caracterizada por su imponente fachada, sus naves bellamente decoradas y su valor arquitectónico y patrimonial para la región.",
     historia: "Dedicada a la Inmaculada Concepción, patrona del municipio, esta parroquia ha custodiado la fe católica de Simijaca desde su establecimiento.",
     ubicacion: "Ubicada en el marco de la plaza principal de Simijaca.",
-    imagenes: [imgSimijacaGeneral],
+    imagenes: iglesiaGallery,
     video: "",
     panorama360: "",
     googleMaps: "" // Pendiente enlace maps
