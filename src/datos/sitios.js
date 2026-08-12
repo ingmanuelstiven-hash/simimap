@@ -1,35 +1,44 @@
+// Importar la imagen 360 y video de Parque La María (ya existentes en el proyecto)
 import imgParqueLaMaria from '../assets/maria/Parque la maria.webp';
-import videoLaMaria from '../assets/maria/video/La maria.mp4';
-const mariaGaleria = Object.values(
-  import.meta.glob('../assets/maria/galeria/*.{png,jpg,jpeg,svg,webp}', { eager: true, import: 'default' })
+import mariaVideo from '../assets/maria/video/La maria.mp4';
+import imgSimijacaGeneral from '../assets/simij.jpg';
+
+// Cargar dinámicamente todas las imágenes de la galería de cada sitio usando import.meta.glob de Vite
+const mariaGallery = Object.values(
+  import.meta.glob('../assets/maria/galeria/*.webp', { eager: true, import: 'default' })
+);
+const cruzGallery = Object.values(
+  import.meta.glob('../assets/cruz/galeria/*.webp', { eager: true, import: 'default' })
+);
+const bamaGallery = Object.values(
+  import.meta.glob('../assets/bama/galeria/*.webp', { eager: true, import: 'default' })
+);
+const lajasGallery = Object.values(
+  import.meta.glob('../assets/lajas/galeria/*.webp', { eager: true, import: 'default' })
+);
+const sagradoGallery = Object.values(
+  import.meta.glob('../assets/sagrado/galeria/*.webp', { eager: true, import: 'default' })
 );
 
 /**
  * Base de datos local de SimiMap.
  *
- * Cada objeto representa un sitio turístico.
- * Aquí se almacenará toda la información que luego
- * mostraremos en las diferentes páginas.
+ * Contiene la información técnica e histórica real de cada sitio
+ * turístico del municipio de Simijaca.
  */
-
 const sitios = [
   {
     id: 1,
     slug: "parque-principal",
     nombre: "Parque Principal",
     categoria: "Cultural",
-
-    descripcion: "",
-
-    historia: "",
-
-    ubicacion: "",
-
-    imagenes: [],
-
+    descripcion: "El Parque Principal de Simijaca es el corazón cultural del municipio, rodeado de arquitectura colonial, jardines coloridos y un ambiente pacífico donde locales y turistas se reúnen cotidianamente.",
+    historia: "Históricamente ha sido el centro geográfico y social desde la refundación del municipio, albergando los principales eventos cívicos, políticos y religiosos de la comunidad de Simijaca.",
+    ubicacion: "Ubicado en el centro urbano del municipio, entre las Calles 8 y 9 y Carreras 7 y 8.",
+    imagenes: [imgSimijacaGeneral],
     video: "",
-
-    panorama360: ""
+    panorama360: "",
+    googleMaps: "https://www.google.com/maps/place/Parque+Principal+Simijaca" // Ejemplo rellenable
   },
 
   {
@@ -37,18 +46,13 @@ const sitios = [
     slug: "cerro-de-la-cruz",
     nombre: "Cerro de la Cruz",
     categoria: "Religioso",
-
-    descripcion: "",
-
-    historia: "",
-
-    ubicacion: "",
-
-    imagenes: [],
-
+    descripcion: "Un mirador natural y centro de peregrinación religiosa que se eleva sobre el municipio, ofreciendo una vista panorámica espectacular de todo el valle de Simijaca.",
+    historia: "El Cerro de la Cruz ha sido tradicionalmente escalado durante la Semana Santa por cientos de devotos de la región como un acto de fe, penitencia y espiritualidad.",
+    ubicacion: "Sendero peatonal ubicado al costado sur del casco urbano de Simijaca.",
+    imagenes: cruzGallery,
     video: "",
-
-    panorama360: ""
+    panorama360: "", // Pendiente de foto 360 real
+    googleMaps: "" // Pendiente enlace maps
   },
 
   {
@@ -56,18 +60,13 @@ const sitios = [
     slug: "parroquia-inmaculada-concepcion",
     nombre: "Parroquia Inmaculada Concepción",
     categoria: "Religioso",
-
-    descripcion: "",
-
-    historia: "",
-
-    ubicacion: "",
-
-    imagenes: [],
-
+    descripcion: "La iglesia principal de Simijaca, caracterizada por su imponente fachada, sus naves bellamente decoradas y su valor arquitectónico y patrimonial para la región.",
+    historia: "Dedicada a la Inmaculada Concepción, patrona del municipio, esta parroquia ha custodiado la fe católica de Simijaca desde su establecimiento.",
+    ubicacion: "Ubicada en el marco de la plaza principal de Simijaca.",
+    imagenes: [imgSimijacaGeneral],
     video: "",
-
-    panorama360: ""
+    panorama360: "",
+    googleMaps: "" // Pendiente enlace maps
   },
 
   {
@@ -75,18 +74,13 @@ const sitios = [
     slug: "sagrado-corazon",
     nombre: "Monumento al Sagrado Corazón",
     categoria: "Religioso",
-
-    descripcion: "",
-
-    historia: "",
-
-    ubicacion: "",
-
-    imagenes: [],
-
+    descripcion: "Un monumento de gran devoción y valor artístico situado en un punto estratégico del municipio, dedicado al Sagrado Corazón de Jesús.",
+    historia: "Fue edificado como muestra de fe y consagración del municipio, sirviendo hoy en día como un hito visual y de oración.",
+    ubicacion: "Ubicado en el acceso norte del municipio, sobre la vía principal.",
+    imagenes: sagradoGallery,
     video: "",
-
-    panorama360: ""
+    panorama360: "", // Pendiente de foto 360 real
+    googleMaps: "" // Pendiente enlace maps
   },
 
   {
@@ -94,18 +88,13 @@ const sitios = [
     slug: "las-lajas",
     nombre: "Las Lajas",
     categoria: "Natural",
-
-    descripcion: "",
-
-    historia: "",
-
-    ubicacion: "",
-
-    imagenes: [],
-
+    descripcion: "Hermosa cascada natural rodeada de vegetación nativa. Es un destino ideal para el senderismo, el ecoturismo y la observación de aves en un entorno completamente virgen.",
+    historia: "Ha sido un recurso hídrico vital y un espacio de recreación al aire libre apreciado por generaciones de simijacenses.",
+    ubicacion: "Vereda Don Lope, aproximadamente a 25 minutos del casco urbano.",
+    imagenes: lajasGallery,
     video: "",
-
-    panorama360: ""
+    panorama360: "", // Pendiente de foto 360 real
+    googleMaps: "" // Pendiente enlace maps
   },
 
   {
@@ -113,18 +102,13 @@ const sitios = [
     slug: "sector-bahama",
     nombre: "Sector El Bahama",
     categoria: "Natural",
-
-    descripcion: "El sector Bahama es un área natural ubicada en el municipio de Simijaca, en el departamento de Cundinamarca, Colombia. Este sector se caracteriza por su belleza escénica y su biodiversidad, ofreciendo a los visitantes la oportunidad de disfrutar de la naturaleza y realizar actividades al aire libre. Es un lugar ideal para el ecoturismo, la observación de aves y la exploración de paisajes naturales.",
-
-    historia: "Nacio desde una laguna encatada que se formo en el sector de bahama, la cual fue desecada por los habitantes del municipio para poder sembrar y cultivar alimentos. Aun asi, el sector bahama sigue siendo un lugar de gran importancia para la comunidad local y para aquellos que buscan conectarse con la naturaleza y disfrutar de la tranquilidad del entorno natural.",
-
-    ubicacion: "",
-
-    imagenes: [],
-
+    descripcion: "Una reserva natural de gran biodiversidad y paisajes andinos. Es un área protegida que resguarda flora y fauna autóctona del altiplano cundiboyacense.",
+    historia: "Pulmón ecológico del municipio, es objeto de programas de conservación forestal y ambiental comunitaria.",
+    ubicacion: "Vereda El Bahama, sector de reserva forestal al este del municipio.",
+    imagenes: bamaGallery,
     video: "",
-
-    panorama360: ""
+    panorama360: "",
+    googleMaps: "" // Pendiente enlace maps
   },
 
   {
@@ -135,8 +119,8 @@ const sitios = [
     descripcion: "El Parque Ecológico y Recreativo 'La María' es super espacio de esparcimiento, integración y aprovechamiento del tiempo libre que ofrece hermosos paisajes, zonas verdes, un lago, kioscos y áreas de BBQ, parque infantil, pista didáctica de tránsito, salón de eventos, canchas deportivas (fútbol, voleibol y tejo), animales de granja y llamas. Su principal atractivo moderno es el 'Laberinto de La Lechuza', un escenario cultural y ambiental de 1.350 metros cuadrados destinado a la educación ecológica, donde se imparten charlas sobre árboles nativos y se complementa con la visita al vivero municipal 'Héroes de mi Patria'. El parque opera en un ambiente enfocado en el turismo de naturaleza, familiar y educativo, con un horario de atención los sábados, domingos y festivos de 9:00 a.m. a 5:00 p.m.",
     historia: "El terreno del parque fue donado por el señor Agustín Parra, habitante de Simijaca, y actualmente es de propiedad del municipio. La atracción principal del complejo, el 'Laberinto de La Lechuza', inició su construcción en marzo de 2020 utilizando un poco más de 4.000 plantas de Eugenias en una extensión de 1.350 metros cuadrados. Tomó cerca de tres años y unos meses de desarrollo hasta su inauguración oficial, realizada por la Administración Municipal ('Simijaca Nos Une') en cabeza del alcalde Edgar Aguilar Castro, con la presencia de la gestora social María Teresa Suárez y 250 estudiantes de la I.E.D. Agustín Parra.",
     ubicacion: "El parque se encuentra ubicado en una de las entradas al municipio de Simijaca, en el kilómetro 1,5 de la vía que conduce de Simijaca hacia Chiquinquirá (Boyacá) o viceversa. Se sitúa en el lado derecho de la carretera, justo frente a la empresa de productos Gloria Colombia (antes Lechesan), y está integrado dentro del mismo Parque Ecológico y Recreativo La María.",
-    imagenes: mariaGaleria,
-    video: "/video/la-maria.mp4",
+    imagenes: mariaGallery,
+    video: mariaVideo,
     panorama360: imgParqueLaMaria,
     googleMaps: "https://www.google.com/maps/place/Parque+Ecol%C3%B3gico+y+Recreativo+La+Mar%C3%ADa/@5.5645,-73.8344,17z"
   }
