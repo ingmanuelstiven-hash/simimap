@@ -9,6 +9,8 @@ import imgMaria360 from '../assets/maria/Parque la maria.webp';
 
 // Importar el video local de Parque La María
 import mariaVideo from '../assets/maria/video/La maria.mp4';
+import bamavideo from '../assets/bama/video/bama.mp4';
+import parqueVideo from '../assets/parque/video/parque.mp4';
 
 // Cargar dinámicamente todas las imágenes de la galería de cada sitio usando import.meta.glob de Vite
 const parqueGallery = Object.values(
@@ -49,7 +51,7 @@ const sitios = [
     historia: "Históricamente ha sido el centro geográfico y social desde la refundación del municipio, albergando los principales eventos cívicos, políticos y religiosos de la comunidad de Simijaca.",
     ubicacion: "Ubicado en el centro urbano del municipio, entre las Calles 8 y 9 y Carreras 7 y 8.",
     imagenes: parqueGallery,
-    video: "",
+    video: parqueVideo,
     panorama360: imgParque360,
     googleMaps: "https://www.google.com/maps/place/Parque+Principal+Simijaca"
   },
@@ -119,7 +121,7 @@ const sitios = [
     historia: "Pulmón ecológico del municipio, es objeto de programas de conservación forestal y ambiental comunitaria.",
     ubicacion: "Vereda El Bahama, sector de reserva forestal al este del municipio.",
     imagenes: bamaGallery,
-    video: "",
+    video: bamavideo,
     panorama360: imgBama360,
     googleMaps: ""
   },

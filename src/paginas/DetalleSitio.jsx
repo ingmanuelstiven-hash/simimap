@@ -316,13 +316,21 @@ export default function DetalleSitio() {
                     className="aspect-video rounded-2xl w-full md:w-[100%] lg:w-[100%] max-w-4xl mx-auto overflow-hidden shadow-lg border border-outline-variant/40"
                   >
                       <video 
+                        key={sitio.slug}
+                        src={sitio.video}
                         className="w-full h-full object-cover" 
                         controls 
                         preload="metadata" 
                         playsInline
-                        muted
+                        onPlay={(e) => {
+                          e.target.muted = false;
+                          e.target.volume = 1.0;
+                        }}
+                        onLoadedMetadata={(e) => {
+                          e.target.muted = false;
+                          e.target.volume = 1.0;
+                        }}
                       >
-                        <source src={sitio.video} type="video/mp4" />
                         Tu navegador no soporta la reproducción de este video.
                       </video>
                   </motion.div>
