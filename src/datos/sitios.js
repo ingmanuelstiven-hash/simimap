@@ -1,14 +1,24 @@
-// Importar la imagen 360 y video de Parque La María (ya existentes en el proyecto)
-import imgParqueLaMaria from '../assets/maria/Parque la maria.webp';
+// Importar las imágenes panorámicas 360° de cada sitio
+import imgParque360 from '../assets/parque/parque.webp';
+import imgCruz360 from '../assets/cruz/cruz.webp';
+import imgIglesia360 from '../assets/iglesia/iglesia.webp';
+import imgSagrado360 from '../assets/sagrado/sagrado corazon.webp';
+import imgLajas360 from '../assets/lajas/lajas.webp';
+import imgBama360 from '../assets/bama/bama.webp';
+import imgMaria360 from '../assets/maria/Parque la maria.webp';
+
+// Importar el video local de Parque La María
 import mariaVideo from '../assets/maria/video/La maria.mp4';
-import imgSimijacaGeneral from '../assets/simij.jpg';
 
 // Cargar dinámicamente todas las imágenes de la galería de cada sitio usando import.meta.glob de Vite
-const mariaGallery = Object.values(
-  import.meta.glob('../assets/maria/galeria/*.webp', { eager: true, import: 'default' })
+const parqueGallery = Object.values(
+  import.meta.glob('../assets/parque/galeria/*.webp', { eager: true, import: 'default' })
 );
 const cruzGallery = Object.values(
   import.meta.glob('../assets/cruz/galeria/*.webp', { eager: true, import: 'default' })
+);
+const iglesiaGallery = Object.values(
+  import.meta.glob('../assets/iglesia/galeria/*.webp', { eager: true, import: 'default' })
 );
 const bamaGallery = Object.values(
   import.meta.glob('../assets/bama/galeria/*.webp', { eager: true, import: 'default' })
@@ -19,11 +29,8 @@ const lajasGallery = Object.values(
 const sagradoGallery = Object.values(
   import.meta.glob('../assets/sagrado/galeria/*.webp', { eager: true, import: 'default' })
 );
-const parqueGallery = Object.values(
-  import.meta.glob('../assets/parque/galeria/*.webp', { eager: true, import: 'default' })
-);
-const iglesiaGallery = Object.values(
-  import.meta.glob('../assets/iglesia/galeria/*.webp', { eager: true, import: 'default' })
+const mariaGallery = Object.values(
+  import.meta.glob('../assets/maria/galeria/*.webp', { eager: true, import: 'default' })
 );
 
 /**
@@ -43,8 +50,8 @@ const sitios = [
     ubicacion: "Ubicado en el centro urbano del municipio, entre las Calles 8 y 9 y Carreras 7 y 8.",
     imagenes: parqueGallery,
     video: "",
-    panorama360: "",
-    googleMaps: "https://www.google.com/maps/place/Parque+Principal+Simijaca" 
+    panorama360: imgParque360,
+    googleMaps: "https://www.google.com/maps/place/Parque+Principal+Simijaca"
   },
 
   {
@@ -57,8 +64,8 @@ const sitios = [
     ubicacion: "Sendero peatonal ubicado al costado sur del casco urbano de Simijaca.",
     imagenes: cruzGallery,
     video: "",
-    panorama360: "", // Pendiente de foto 360 real
-    googleMaps: "" // Pendiente enlace maps
+    panorama360: imgCruz360,
+    googleMaps: ""
   },
 
   {
@@ -71,8 +78,8 @@ const sitios = [
     ubicacion: "Ubicada en el marco de la plaza principal de Simijaca.",
     imagenes: iglesiaGallery,
     video: "",
-    panorama360: "",
-    googleMaps: "" // Pendiente enlace maps
+    panorama360: imgIglesia360,
+    googleMaps: ""
   },
 
   {
@@ -85,8 +92,8 @@ const sitios = [
     ubicacion: "Ubicado en el acceso norte del municipio, sobre la vía principal.",
     imagenes: sagradoGallery,
     video: "",
-    panorama360: "", // Pendiente de foto 360 real
-    googleMaps: "" // Pendiente enlace maps
+    panorama360: imgSagrado360,
+    googleMaps: ""
   },
 
   {
@@ -99,8 +106,8 @@ const sitios = [
     ubicacion: "Vereda Don Lope, aproximadamente a 25 minutos del casco urbano.",
     imagenes: lajasGallery,
     video: "",
-    panorama360: "", // Pendiente de foto 360 real
-    googleMaps: "" // Pendiente enlace maps
+    panorama360: imgLajas360,
+    googleMaps: ""
   },
 
   {
@@ -113,8 +120,8 @@ const sitios = [
     ubicacion: "Vereda El Bahama, sector de reserva forestal al este del municipio.",
     imagenes: bamaGallery,
     video: "",
-    panorama360: "",
-    googleMaps: "" // Pendiente enlace maps
+    panorama360: imgBama360,
+    googleMaps: ""
   },
 
   {
@@ -127,7 +134,7 @@ const sitios = [
     ubicacion: "El parque se encuentra ubicado en una de las entradas al municipio de Simijaca, en el kilómetro 1,5 de la vía que conduce de Simijaca hacia Chiquinquirá (Boyacá) o viceversa. Se sitúa en el lado derecho de la carretera, justo frente a la empresa de productos Gloria Colombia (antes Lechesan), y está integrado dentro del mismo Parque Ecológico y Recreativo La María.",
     imagenes: mariaGallery,
     video: mariaVideo,
-    panorama360: imgParqueLaMaria,
+    panorama360: imgMaria360,
     googleMaps: "https://www.google.com/maps/place/Parque+Ecol%C3%B3gico+y+Recreativo+La+Mar%C3%ADa/@5.5645,-73.8344,17z"
   }
 ];
