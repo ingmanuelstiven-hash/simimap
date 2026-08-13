@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from '../componentes/Navbar';
 import Footer from '../componentes/Footer';
-import simijBg from '../assets/simij.jpg';
+import simijBg from '../assets/simij.webp';
 import logoSimimap from '../assets/logo_simimap.svg';
 
 /**
@@ -103,4 +103,4 @@ export default function Inicio() {
       <Footer />
     </div>
   );
-}
+}
