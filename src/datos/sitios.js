@@ -61,13 +61,13 @@ const sitios = [
     slug: "cerro-de-la-cruz",
     nombre: "Cerro de la Cruz",
     categoria: "Religioso",
-    descripcion: "Un mirador natural y centro de peregrinación religiosa que se eleva sobre el municipio, ofreciendo una vista panorámica espectacular de todo el valle de Simijaca.",
-    historia: "El Cerro de la Cruz ha sido tradicionalmente escalado durante la Semana Santa por cientos de devotos de la región como un acto de fe, penitencia y espiritualidad.",
-    ubicacion: "Sendero peatonal ubicado al costado sur del casco urbano de Simijaca.",
+    descripcion: "Ubicado en el sector Cristales dentro de la vereda Aposentos, el cerro de San Juanito —mejor conocido como el Cerro o Alto de la Cruz— es uno de los miradores naturales más impresionantes del municipio. Desde su cima, ofrece una vista panorámica espectacular de todo el trazado urbano de Simijaca y el paisaje verde que lo rodea. El lugar destaca por tener en su cumbre una icónica cruz blanca, acompañada a lo largo del sendero de ascenso por las estaciones del viacrucis. Más allá de su profundo valor espiritual, el cerro es un punto focal para el ecoturismo y el senderismo (trekking). Sus rutas permiten a los visitantes respirar aire puro, realizar caminatas ecológicas y apreciar la diversidad de flora y fauna nativa en un entorno de reserva que, además, protege importantes recursos hídricos locales. Como atractivo visual adicional, desde el cerro se desprende una hermosa cascada que, vista desde el pueblo, simula un delicado hilo de agua que cae por la montaña.",
+    historia: "El Alto de la Cruz ha estado íntimamente ligado a la identidad, la devoción y las tradiciones de los simijenses durante generaciones. Históricamente, se consolidó como el escenario principal de peregrinación católica del municipio, cobrando especial protagonismo durante la Semana Santa, época en la que la comunidad realiza largas procesiones por la ladera de la montaña como acto de fe. Con el paso de los años, su concepción ha evolucionado de ser un espacio exclusivamente de recogimiento religioso a convertirse en un activo fundamental para el turismo rural y paisajístico. El cerro ha sido testigo del paso de campesinos, locales y turistas, consolidándose no solo como un mirador, sino como un guardián del patrimonio natural que conecta el legado cultural y religioso del municipio con la creciente vocación hacia la conservación ambiental y el turismo sostenible.",
+    ubicacion: "Vereda Aposentos, Sector Cristales, zona rural de Simijaca, Cundinamarca.",
     imagenes: cruzGallery,
     video: "",
     panorama360: imgCruz360,
-    googleMaps: ""
+    googleMaps: "https://maps.app.goo.gl/a8hotohU7iiYxrPj6"
   },
 
   {
@@ -89,13 +89,13 @@ const sitios = [
     slug: "sagrado-corazon",
     nombre: "Monumento al Sagrado Corazón",
     categoria: "Religioso",
-    descripcion: "Un monumento de gran devoción y valor artístico situado en un punto estratégico del municipio, dedicado al Sagrado Corazón de Jesús.",
-    historia: "Fue edificado como muestra de fe y consagración del municipio, sirviendo hoy en día como un hito visual y de oración.",
-    ubicacion: "Ubicado en el acceso norte del municipio, sobre la vía principal.",
+    descripcion: "El monumento del Sagrado Corazón de Jesús es un destacado punto de interés religioso y paisajístico situado en las alturas de uno de los cerros que vigilan el municipio de Simijaca. Concebido como un lugar de peregrinación y recogimiento espiritual, este espacio atrae tanto a devotos locales como a visitantes interesados en el turismo religioso y el senderismo.Desde su base en el cerro, los visitantes son recompensados con una vista panorámica excepcional de la llamada tierra del cielo azul y de los paisajes montañosos del valle. La ascensión ofrece una experiencia que combina el contacto con la naturaleza, el esfuerzo físico moderado y la devoción católica, convirtiendo a esta obra en un referente de paz, meditación y contemplación para toda la región.",
+    historia: "La devoción al Sagrado Corazón de Jesús tiene raíces institucionales y culturales muy profundas en Simijaca a lo largo de las décadas. Como reflejo de este fervor, el municipio ha reafirmado su vocación católica en varias ocasiones; un ejemplo notable fue la renovación de la consagración oficial y solemne del municipio al Sagrado Corazón mediante el Decreto No. 0047, firmado el 20 de octubre de 2016 por la Alcaldía Municipal.No obstante, la materialización de la majestuosa estatua en el cerro es un hito de la historia reciente del pueblo. La consolidación e inauguración oficial de esta obra se llevó a cabo el fin de semana del 25 y 26 de noviembre de 2023. Durante esas fechas, la comunidad se unió en una gran peregrinación, caminando desde el centro de Simijaca hacia el cerro para celebrar las vísperas y asistir a la apertura oficial. Desde entonces, el lugar se ha posicionado rápidamente como un nuevo símbolo en la historia religiosa y turística del municipio.",
+    ubicacion: "Zona de cerros de Simijaca, Cundinamarca, Colombia (ruta de ascenso desde el casco urbano).",
     imagenes: sagradoGallery,
     video: "",
     panorama360: imgSagrado360,
-    googleMaps: ""
+    googleMaps: "https://maps.google.com/?cid=6314987964198860515"
   },
 
   {
@@ -103,13 +103,13 @@ const sitios = [
     slug: "las-lajas",
     nombre: "Las Lajas",
     categoria: "Natural",
-    descripcion: "Hermosa cascada natural rodeada de vegetación nativa. Es un destino ideal para el senderismo, el ecoturismo y la observación de aves en un entorno completamente virgen.",
-    historia: "Ha sido un recurso hídrico vital y un espacio de recreación al aire libre apreciado por generaciones de simijacenses.",
-    ubicacion: "Vereda Don Lope, aproximadamente a 25 minutos del casco urbano.",
+    descripcion: "Las Lajas no es un monumento de un solo punto, sino una de las veredas más ricas en belleza natural y ecoturismo dentro del municipio de Simijaca. Este sector rural se caracteriza por su topografía montañosa, sus formaciones rocosas y sus extensos terrenos de pastos verdes que reflejan la profunda vocación agrícola y ganadera de la región. El área de Las Lajas es el punto de partida y el corredor natural para acceder a algunos de los atractivos ecológicos más importantes del municipio. Desde allí, los visitantes pueden aproximarse a la majestuosa cadena montañosa de los Picos del Sicuara (una serie de nueve cerros que, en su conjunto, simulan el pico o nariz de una lechuza). Además, la zona es reconocida por sus afluentes hídricos y quebradas de piedra natural, convirtiéndose en un escenario ideal para el avistamiento de aves, el turismo de contemplación y la práctica de deportes de aventura o senderismo de montaña.",
+    historia: "Históricamente, la vereda Las Lajas y sus zonas aledañas (como la vereda Don Lope) fueron territorios transitados por las comunidades indígenas Muiscas antes de la colonización española. La energía de la zona ha permitido que, con el paso de las generaciones, se conserven relatos y mitos de tradición oral muy arraigados en la cultura de Simijaca. El elemento histórico y místico más relevante asociado a este sector es su cercanía a la Laguna del Colorado, popularmente conocida por los simijenses como la Laguna Encantada. Según los relatos ancestrales, este cuerpo de agua era utilizado por los indígenas para realizar ceremonias y ritos sagrados. Hoy en día, los abuelos del pueblo aún cuentan leyendas sobre apariciones mágicas en la laguna, como patos y gallinas de oro que brillan bajo el agua, manteniendo vivo el misticismo del lugar y atrayendo a los turistas que buscan sumergirse en la cultura local.",
+    ubicacion: "Zona rural montañosa del municipio de Simijaca, Cundinamarca (colindante con la vereda Don Lope).",
     imagenes: lajasGallery,
     video: "",
     panorama360: imgLajas360,
-    googleMaps: ""
+    googleMaps: "https://maps.app.goo.gl/qTgTNqAjjji6YXBj7"
   },
 
   {
