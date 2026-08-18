@@ -223,18 +223,36 @@ export default function DetalleSitio() {
                   Descripción
                 </motion.h3>
 
-                <motion.p variants={tabItemVariants} className="text-on-surface-variant leading-relaxed text-justify">
-                  {sitio?.descripcion || "Descripción detallada del sitio turístico en desarrollo."}
-                </motion.p>
+                {sitio?.descripcion ? (
+                  sitio.descripcion.split('\n').filter(p => p.trim() !== '').map((parrafo, idx) => (
+                    <motion.p 
+                      key={`desc-${idx}`} 
+                      variants={tabItemVariants} 
+                      className="text-on-surface-variant leading-relaxed text-justify mb-4"
+                    >
+                      {parrafo}
+                    </motion.p>
+                  ))
+                ) : (
+                  <motion.p variants={tabItemVariants} className="text-on-surface-variant leading-relaxed text-justify">
+                    Descripción detallada del sitio turístico en desarrollo.
+                  </motion.p>
+                )}
 
                 {sitio?.historia && (
                   <>
                     <motion.h3 variants={tabItemVariants} className="text-2xl font-display font-semibold text-on-surface pt-2">
                       Historia
                     </motion.h3>
-                    <motion.p variants={tabItemVariants} className="text-on-surface-variant leading-relaxed text-justify">
-                      {sitio.historia}
-                    </motion.p>
+                    {sitio.historia.split('\n').filter(p => p.trim() !== '').map((parrafo, idx) => (
+                      <motion.p 
+                        key={`hist-${idx}`} 
+                        variants={tabItemVariants} 
+                        className="text-on-surface-variant leading-relaxed text-justify mb-4"
+                      >
+                        {parrafo}
+                      </motion.p>
+                    ))}
                   </>
                 )}
 
