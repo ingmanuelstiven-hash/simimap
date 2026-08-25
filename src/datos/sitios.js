@@ -1,4 +1,4 @@
-// Importar las imágenes panorámicas 360° de cada sitio
+// Importar imagenes 360
 import imgParque360 from '../assets/parque/parque.webp';
 import imgCruz360 from '../assets/cruz/cruz.webp';
 import imgIglesia360 from '../assets/iglesia/iglesia.webp';
@@ -7,10 +7,12 @@ import imgLajas360 from '../assets/lajas/lajas.webp';
 import imgBama360 from '../assets/bama/bama.webp';
 import imgMaria360 from '../assets/maria/Parque la maria.webp';
 
-// Importar el video local de Parque La María
+// Importar los videos
 import mariaVideo from '../assets/maria/video/La maria.mp4';
 import bamavideo from '../assets/bama/video/bama.mp4';
 import parqueVideo from '../assets/parque/video/parque.mp4';
+import cerrocruzvideo from '../assets/cruz/video/cruz.mp4'
+import sagradocorazonvideo from '../assets/sagrado/video/sagrado corazon.mp4';
 
 // Cargar dinámicamente todas las imágenes de la galería de cada sitio usando import.meta.glob de Vite
 const parqueGallery = Object.values(
@@ -35,12 +37,8 @@ const mariaGallery = Object.values(
   import.meta.glob('../assets/maria/galeria/*.webp', { eager: true, import: 'default' })
 );
 
-/**
- * Base de datos local de SimiMap.
- *
- * Contiene la información técnica e histórica real de cada sitio
- * turístico del municipio de Simijaca.
- */
+//Datos de sitios turisticos de Simijaca}
+
 const sitios = [
   {
     id: 1,
@@ -50,10 +48,10 @@ const sitios = [
     descripcion: `El Parque Principal de Simijaca es el núcleo urbano, social y cultural del municipio, un espacio exclusivamente peatonal diseñado para el esparcimiento, la meditación y la convivencia. En su distribución actual, fruto de la modernización arquitectónica de finales del siglo XX, el parque destaca por sus amplias materas construidas en piedra, un generoso espacio central abierto y una pila moderna que adorna el paisaje.
     Es un punto de encuentro rodeado de jardines, ideal para caminar y descansar. Visualmente, el parque está dominado por la imponente Parroquia de la Inmaculada Concepción, cuyo frontis con dos torres laterales alberga el campanario y un reloj clásico. La atmósfera del parque hace honor al apelativo de Simijaca como la "tierra del cielo azul", ofreciendo a locales y turistas un respiro tranquilo en el corazón de las montañas cundinamarquesas.`,
     historia: `El parque se ubica exactamente en el mismo lugar donde fue trazado durante la fundación definitiva del municipio, el 14 de agosto de 1600, llevada a cabo por el Oidor Luis Enríquez y el Juez Poblador Juan López de Linares. Fiel a la vida colonial y al modelo español de trazado en damero, esta plaza principal dio origen a la organización urbana y política de la época, conformando un núcleo cívico tradicional rodeado por la parroquia y la casa de gobierno.
-A lo largo de los siglos, la plaza ha sido testigo invaluable de la evolución arquitectónica, las tradiciones religiosas y las vivencias de los habitantes. La memoria local y las fotografías antiguas revelan que, a principios del siglo XX, el parque era una plaza de tierra que los días lunes se transformaba en el agitado epicentro comercial del pueblo. En sus espacios se ubicaban lotes de ganado, ventas de líchigo, papa, cereales y verduras directamente en el suelo, mientras que en toldos se ofreciían comidas y bebidas, y en estructuras de madera operaba el tradicional batán.
-La transformación hacia el parque moderno que conocemos hoy se dio en dos grandes etapas:
-La intervención de 1965: A mediados de este año, el mercado de ganado y víveres fue trasladado a la Plazuela. El parque fue pavimentado en concreto y se adecuaron canchas múltiples para básquetbol y microfútbol, junto con jardines ornamentales. En esta época, el paisaje del parque estaba marcado por cuatro grandes palmeras y el busto de Policarpa Salavarrieta ("La Pola").
-La remodelación de 1988: A finales de la década de los ochenta, bajo la administración del alcalde Luis Blanco, surgió la iniciativa de embellecer definitivamente el espacio, gestionando diseños con la Universidad de los Andes y la CAR. La obra fue ejecutada en 1988 bajo la administración de Fabio Peña. En esta etapa definitiva se eliminaron las zonas deportivas (trasladándolas a la Plazuela) y el busto de "La Pola" fue reubicado en la escuela homónima. Así, el parque adoptó su diseño actual con amplias zonas duras, materas de piedra y la pila central, destinando el espacio para el uso exclusivo de los peatones.`,
+    A lo largo de los siglos, la plaza ha sido testigo invaluable de la evolución arquitectónica, las tradiciones religiosas y las vivencias de los habitantes. La memoria local y las fotografías antiguas revelan que, a principios del siglo XX, el parque era una plaza de tierra que los días lunes se transformaba en el agitado epicentro comercial del pueblo. En sus espacios se ubicaban lotes de ganado, ventas de líchigo, papa, cereales y verduras directamente en el suelo, mientras que en toldos se ofreciían comidas y bebidas, y en estructuras de madera operaba el tradicional batán.
+    La transformación hacia el parque moderno que conocemos hoy se dio en dos grandes etapas:
+    La intervención de 1965: A mediados de este año, el mercado de ganado y víveres fue trasladado a la Plazuela. El parque fue pavimentado en concreto y se adecuaron canchas múltiples para básquetbol y microfútbol, junto con jardines ornamentales. En esta época, el paisaje del parque estaba marcado por cuatro grandes palmeras y el busto de Policarpa Salavarrieta ("La Pola").
+    La remodelación de 1988: A finales de la década de los ochenta, bajo la administración del alcalde Luis Blanco, surgió la iniciativa de embellecer definitivamente el espacio, gestionando diseños con la Universidad de los Andes y la CAR. La obra fue ejecutada en 1988 bajo la administración de Fabio Peña. En esta etapa definitiva se eliminaron las zonas deportivas (trasladándolas a la Plazuela) y el busto de "La Pola" fue reubicado en la escuela homónima. Así, el parque adoptó su diseño actual con amplias zonas duras, materas de piedra y la pila central, destinando el espacio para el uso exclusivo de los peatones.`,
     ubicacion: "Dirección: Carrera 7 No. 7-42, en el núcleo urbano de Simijaca, Cundinamarca, Colombia. Punto de referencia: Parque Principal de Simijaca.",
     imagenes: parqueGallery,
     video: parqueVideo,
@@ -71,7 +69,7 @@ La remodelación de 1988: A finales de la década de los ochenta, bajo la admini
     historia: `El Alto de la Cruz ha estado íntimamente ligado a la identidad, la devoción y las tradiciones de los simijenses durante generaciones. Históricamente, se consolidó como el escenario principal de peregrinación católica del municipio, cobrando especial protagonismo durante la Semana Santa, época en la que la comunidad realiza largas procesiones por la ladera de la montaña como acto de fe. Con el paso de los años, su concepción ha evolucionado de ser un espacio exclusivamente de recogimiento religioso a convertirse en un activo fundamental para el turismo rural y paisajístico. El cerro ha sido testigo del paso de campesinos, locales y turistas, consolidándose no solo como un mirador, sino como un guardián del patrimonio natural que conecta el legado cultural y religioso del municipio con la creciente vocación hacia la conservación ambiental y el turismo sostenible.`,
     ubicacion: `Vereda Aposentos, Sector Cristales, zona rural de Simijaca, Cundinamarca.`,
     imagenes: cruzGallery,
-    video: "",
+    video: cerrocruzvideo,
     panorama360: imgCruz360,
     googleMaps: "https://maps.app.goo.gl/a8hotohU7iiYxrPj6"
   },
@@ -105,7 +103,7 @@ La remodelación de 1988: A finales de la década de los ochenta, bajo la admini
     La consolidación e inauguración oficial de esta obra se llevó a cabo el fin de semana del 25 y 26 de noviembre de 2023. Durante esas fechas, la comunidad se unió en una gran peregrinación, caminando desde el centro de Simijaca hacia el cerro para celebrar las vísperas y asistir a la apertura oficial. Desde entonces, el lugar se ha posicionado rápidamente como un nuevo símbolo en la historia religiosa y turística del municipio.`,
     ubicacion: `Zona de cerros de Simijaca, Cundinamarca, Colombia (ruta de ascenso desde el casco urbano).`,
     imagenes: sagradoGallery,
-    video: "",
+    video: sagradocorazonvideo,
     panorama360: imgSagrado360,
     googleMaps: "https://maps.google.com/?cid=6314987964198860515"
   },
