@@ -7,12 +7,15 @@ import imgLajas360 from '../assets/lajas/lajas.webp';
 import imgBama360 from '../assets/bama/bama.webp';
 import imgMaria360 from '../assets/maria/Parque la maria.webp';
 
+
 // Importar los videos
 import mariaVideo from '../assets/maria/video/La maria.mp4';
 import bamavideo from '../assets/bama/video/bama.mp4';
 import parqueVideo from '../assets/parque/video/parque.mp4';
 import cerrocruzvideo from '../assets/cruz/video/cruz.mp4'
 import sagradocorazonvideo from '../assets/sagrado/video/sagrado corazon.mp4';
+import iglesiaVideo from '../assets/iglesia/video/Iglesia principal.mp4';
+import lajasVideo from '../assets/lajas/video/Las lajas.mp4';
 
 // Cargar dinámicamente todas las imágenes de la galería de cada sitio usando import.meta.glob de Vite
 const parqueGallery = Object.values(
@@ -87,7 +90,7 @@ const sitios = [
     Tras nueve años de arduo esfuerzo colectivo, la estructura principal se dio por terminada hacia 1967. Posteriormente, bajo la guía de los párrocos José del Carmen Gutiérrez y Julio E. Forero, se culminaron las obras complementarias como la Casa Cural. Finalmente, el 13 de diciembre de 1969, el obispo Monseñor Buenaventura Jáuregui inauguró solemnemente esta magna obra, consagrándola a la historia y al patrimonio de todos los simijenses.`,
     ubicacion: `Dirección: Parque Principal de Simijaca (Carrera 7 con Calle 7). Punto de referencia: Templo Parroquial Inmaculada Concepción.`,
     imagenes: iglesiaGallery,
-    video: "",
+    video: iglesiaVideo,
     panorama360: imgIglesia360,
     googleMaps: "https://maps.app.goo.gl/ApLUpgdiLB6NbNKFA"
   },
@@ -119,7 +122,7 @@ const sitios = [
     Según los relatos ancestrales, este cuerpo de agua era utilizado por los indígenas para realizar ceremonias y ritos sagrados. Hoy en día, los abuelos del pueblo aún cuentan leyendas sobre apariciones mágicas en la laguna, como patos y gallinas de oro que brillan bajo el agua, manteniendo vivo el misticismo del lugar y atrayendo a los turistas que buscan sumergirse en la cultura local.`,
     ubicacion: `Zona rural montañosa del municipio de Simijaca, Cundinamarca (colindante con la vereda Don Lope).`,
     imagenes: lajasGallery,
-    video: "",
+    video: lajasVideo,
     panorama360: imgLajas360,
     googleMaps: "https://maps.app.goo.gl/qTgTNqAjjji6YXBj7"
   },
